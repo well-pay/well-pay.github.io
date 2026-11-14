@@ -5,6 +5,26 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0737c8">
 <title>Well Pay</title>
+<meta name="description" content="Well Pay: Pay Smarter, Live Better. Buy data and airtime fast and securely.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Well Pay">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Well Pay">
+<meta property="og:title" content="Well Pay">
+<meta property="og:description" content="Pay Smarter, Live Better. Buy data and airtime fast and securely.">
+<meta property="og:url" content="https://well-pay.github.io/">
+<meta property="og:image" content="https://well-pay.github.io/icon-512.png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Well Pay">
+<meta name="twitter:description" content="Pay Smarter, Live Better. Buy data and airtime fast and securely.">
+<meta name="twitter:image" content="https://well-pay.github.io/icon-512.png">
 <style>
 /* ========== 1. TOKENS & BASE ========== */
 :root{--blue:#0738c9;--blue2:#0751df;--deep:#061b7d;--green:#16c900;--green2:#0aa81c;--ink:#101b43;--muted:#68749a;--line:#e0e7fa;--bg:#f4f7ff;
@@ -139,6 +159,31 @@ button,input{font:inherit}button{cursor:pointer;color:inherit}
 #toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%);background:#13204c;color:#fff;padding:12px 16px;border-radius:12px;z-index:40;font-size:13px;max-width:90%;text-align:center}
 @media(min-width:481px){body{padding:16px 0}.app{min-height:calc(100dvh - 32px);border-radius:24px}.bottom{bottom:16px;border-radius:0 0 24px 24px}}
 
+/* ========== BRANDED SHEETS / FUND / NOTIFICATIONS ========== */
+#toast{z-index:70}
+#sheetLayer{position:fixed;inset:0;background:#061b7d99;z-index:60;display:flex;align-items:flex-end;justify-content:center}
+.msheet{background:#fff;width:100%;max-width:480px;border-radius:26px 26px 0 0;overflow:hidden;animation:sheetUp .22s ease-out}
+@keyframes sheetUp{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.mhead{background:var(--grad);color:#fff;display:flex;align-items:center;gap:12px;padding:16px 20px}
+.mhead [data-logo]{width:62px;flex:none}.mhead [data-logo] svg{width:100%;display:block}
+.mhead b{font-size:22px;font-weight:900;letter-spacing:-.5px}.mhead b span{color:#25e500}
+.mbody{padding:20px 20px calc(22px + env(safe-area-inset-bottom,0px))}
+.mbody h3{margin:0 0 4px;font-size:19px}.mbody p{margin:0 0 12px;color:#667294;font-size:13px;line-height:1.5}
+.orow{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #edf0f8;font-size:14px}
+.orow span{color:#68749a}.orow b{text-align:right}
+.owarn{background:#fff1f1;border:1px solid #ffc9c9;color:#a32020;border-radius:12px;padding:10px 12px;font-size:13px;margin-top:12px;line-height:1.45}
+.mbody .btn{margin-top:14px}.mbody .btn-ghost{background:#fff;color:#68749a;border:1.5px solid var(--line);margin-top:10px}
+.fund-card{background:var(--grad);color:#fff;border-radius:18px;padding:18px;margin-bottom:18px}
+.fund-card small{opacity:.8}.fund-card b{display:block;font-size:30px;margin-top:4px}
+.nrow{display:flex;gap:12px;padding:14px 2px;border-bottom:1px solid #edf0f8;align-items:flex-start}
+.nrow .ni{width:40px;height:40px;border-radius:50%;background:#eef3ff;color:#0646c9;display:grid;place-items:center;font-size:20px;flex:none}
+.nrow.adm .ni{background:linear-gradient(110deg,#17c900,#0a9f1c);color:#fff}
+.nrow b{font-size:14px}.nrow small{display:block;font-size:12.5px;color:#68749a;margin-top:3px;line-height:1.45}
+/* ========== INSTALL BAR ========== */
+#installBar{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);width:min(440px,92%);background:#fff;border-radius:18px;box-shadow:0 10px 30px #071b6338;z-index:30;display:flex;align-items:center;gap:10px;padding:10px 10px 10px 14px;font-size:14px;font-weight:700}
+#installBar span{flex:1;line-height:1.3}#installBar button{border:0;border-radius:12px}
+#installBtn{background:linear-gradient(100deg,#12c900,#22dc08);color:#fff;font-weight:800;padding:10px 16px}
+#installX{background:none;color:#7883a2;font-size:18px;padding:6px 8px}
 /* ========== BOOT SPLASH (no login flash on refresh) ========== */
 html.booting .app>section{display:none!important}
 html.booting .app{background:var(--grad)}
@@ -151,7 +196,7 @@ html.booting #helpFab{display:none!important}
 #editLayer h3{margin:0 0 6px;font-size:19px}#editLayer p{margin:0 0 14px;color:#667294;font-size:13px;line-height:1.5}
 .minput{width:100%;height:50px;border:1.5px solid var(--line);border-radius:14px;padding:0 14px;margin-bottom:12px;font-size:16px;background:#f9fbff}
 #editLayer .btn{margin-top:4px}#editLayer .btn-outline{margin-top:10px;border-color:var(--line);color:var(--muted)}
-.badge{font-size:11px;font-weight:800;color:#0b9b37;margin-left:4px}
+.vbadge{font-size:11px;font-weight:800;color:#0b9b37;margin-left:4px}
 
 /* ========== SUPPORT CHAT + HELP BUTTON ========== */
 #helpFab{position:fixed;left:0;top:0;width:56px;height:56px;border-radius:50%;border:0;background:var(--grad-green);color:#fff;font-size:26px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px #0a9f1c66,0 0 0 4px #ffffffcc;z-index:18;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
@@ -220,10 +265,10 @@ document.querySelector('#splash [data-logo]').innerHTML=LOGO;
 <!-- HOME -->
 <section id="homeScreen" class="hidden">
   <div class="hero">
-    <header class="topbar"><button class="iconbtn" data-act="drawer" aria-label="Open menu"><i data-ic="menu"></i></button><div class="topbrand">Well <span>Pay</span></div><button class="iconbtn" data-act="toast" data-msg="You are all caught up!" aria-label="Notifications"><i data-ic="bell"></i><i class="badge">2</i></button></header>
+    <header class="topbar"><button class="iconbtn" data-act="drawer" aria-label="Open menu"><i data-ic="menu"></i></button><div class="topbrand">Well <span>Pay</span></div><button class="iconbtn" data-act="notif" aria-label="Notifications"><i data-ic="bell"></i><i class="badge hidden" id="notifBadge">0</i></button></header>
     <div class="content">
       <div class="welcome"><div class="avatar" data-avatar data-act="avatar" role="button" aria-label="Change profile photo"></div><div><strong id="helloName">Hello!</strong><small>Welcome back</small></div></div>
-      <div class="balance"><div class="w"><i data-ic="wallet"></i><div><small>Wallet Balance</small><b id="walletValue">₦2,500.00</b></div></div><button class="fund-btn" data-go="fundScreen">Fund Wallet</button></div>
+      <div class="balance"><div class="w"><i data-ic="wallet"></i><div><small>Wallet Balance</small><b id="walletValue">₦0.00</b></div></div><button class="fund-btn" data-go="fundScreen">Fund Wallet</button></div>
     </div>
   </div>
   <main class="content">
@@ -297,7 +342,16 @@ document.querySelector('#splash [data-logo]').innerHTML=LOGO;
 
 <!-- OTHER PAGES -->
 <section id="transactionsScreen" class="hidden"><header class="page-head"><button class="back" data-go="homeScreen"><i data-ic="back"></i></button>My Transactions</header><div class="sheet"><div class="simple-list" id="allTransactions"></div></div></section>
-<section id="fundScreen" class="hidden"><header class="page-head"><button class="back" data-go="homeScreen"><i data-ic="back"></i></button>Fund Wallet</header><div class="sheet"><div class="label">Wallet Funding</div><p style="color:#667294;font-size:14px;line-height:1.5;margin-top:0">The wallet funding interface will be connected to a verified payment provider in the live version.</p><div class="phone-field"><i data-ic="wallet"></i><input id="fundAmount" type="number" inputmode="numeric" placeholder="Enter amount (₦)"></div><button class="btn btn-green" data-act="toast" data-msg="Demo only: no funds have been added.">Continue</button></div></section>
+<section id="fundScreen" class="hidden"><header class="page-head"><button class="back" data-go="homeScreen"><i data-ic="back"></i></button>Fund Wallet</header><div class="sheet">
+  <div class="fund-card"><small>Current balance</small><b id="fundBal">₦0.00</b></div>
+  <div class="label">Choose an amount</div>
+  <div class="amounts"><button class="amount" data-act="fundPick" data-amount="500">₦500</button><button class="amount" data-act="fundPick" data-amount="1000">₦1,000</button><button class="amount" data-act="fundPick" data-amount="2000">₦2,000</button><button class="amount" data-act="fundPick" data-amount="5000">₦5,000</button><button class="amount" data-act="fundPick" data-amount="10000">₦10,000</button><button class="amount" data-act="fundPick" data-amount="20000">₦20,000</button></div>
+  <div class="label">Or enter another amount</div>
+  <div class="phone-field"><i data-ic="wallet"></i><input id="fundAmount" type="number" inputmode="numeric" placeholder="Amount (₦100 - ₦500,000)"></div>
+  <button class="btn btn-green" data-act="fundContinue">Continue</button>
+  <p class="demo-note" id="fundNote">Test mode: no real payment is taken yet. Your wallet is credited for testing.</p>
+</div></section>
+<section id="notificationsScreen" class="hidden"><header class="page-head"><button class="back" data-go="homeScreen"><i data-ic="back"></i></button>Notifications</header><div class="sheet"><div id="notifList"></div></div></section>
 <section id="servicesScreen" class="hidden"><header class="page-head"><button class="back" data-go="homeScreen"><i data-ic="back"></i></button>More Services</header><div class="sheet"><div class="simple-list" id="allServices"></div></div></section>
 <section id="settingsScreen" class="hidden"><header class="page-head"><button class="back" data-go="homeScreen"><i data-ic="back"></i></button>Settings</header><div class="sheet"><div class="simple-list" id="settingsInfo"></div></div></section>
 <section id="supportScreen" class="hidden"><header class="page-head"><button class="back" data-go="homeScreen"><i data-ic="back"></i></button>Help &amp; Support</header><div class="sheet">
@@ -308,6 +362,8 @@ document.querySelector('#splash [data-logo]').innerHTML=LOGO;
   <div class="chat-bar"><textarea id="chatInput" rows="1" maxlength="1000" placeholder="Type your message..."></textarea><button id="chatSend" type="button" aria-label="Send"><i data-ic="arrow"></i></button></div>
 </div></section>
 <input type="file" id="avatarInput" accept="image/*" hidden>
+<div id="sheetLayer" class="hidden"><div class="msheet"><div class="mhead"><div data-logo></div><b>Well <span>Pay</span></b></div><div class="mbody" id="sheetBody"></div></div></div>
+<div id="installBar" class="hidden"><span>📲 Install Well Pay on your phone</span><button id="installBtn" type="button">Install</button><button id="installX" type="button" aria-label="Close">✕</button></div>
 <button id="helpFab" class="hidden" type="button" aria-label="Help and support"><i data-ic="headset"></i></button>
 <div id="editLayer" class="hidden"><div class="modal"><h3 id="editTitle"></h3><p id="editHelp"></p><div id="editFields"></div><button class="btn btn-blue" id="editSave" type="button">Save</button><button class="btn btn-outline" id="editCancel" type="button">Cancel</button></div></div>
 <div id="toast" class="hidden"></div>
@@ -328,8 +384,8 @@ if(LIVE){firebase.initializeApp(CONFIG.FIREBASE);fa=firebase.auth();fdb=firebase
 const AUTH_MSG={'auth/email-already-in-use':'An account with this email already exists. Please log in.','auth/invalid-credential':'Email or password is incorrect.','auth/wrong-password':'Password is incorrect.','auth/user-not-found':'Email or password is incorrect.','auth/invalid-email':'Enter a valid email address.','auth/weak-password':'Password must be at least 6 characters.','auth/too-many-requests':'Too many attempts. Please wait a few minutes and try again.','auth/network-request-failed':'No internet connection. Please try again.','auth/requires-recent-login':'Please log in again to do this.','auth/operation-not-allowed':'This sign-in method is not enabled yet in Firebase.'};
 const authErr=e=>AUTH_MSG[e&&e.code]||(e&&e.message)||'Something went wrong. Please try again.';
 const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const DEFAULT_BALANCE=2500;
-const KEYS={accounts:'wellpay_demo_v2_accounts',tx:'wellpay_demo_v2_transactions',session:'wellpay_demo_v2_session',remember:'wellpay_demo_v2_remember',lastId:'wellpay_demo_v2_lastid',bio:'wellpay_demo_v2_bio',locked:'wellpay_demo_v2_locked',active:'wellpay_demo_v2_active',chat:'wellpay_demo_v2_chat_',fab:'wellpay_demo_v2_fab'};
+const DEFAULT_BALANCE=0; /* new accounts start with an empty wallet */
+const KEYS={accounts:'wellpay_demo_v2_accounts',tx:'wellpay_demo_v2_transactions',session:'wellpay_demo_v2_session',remember:'wellpay_demo_v2_remember',lastId:'wellpay_demo_v2_lastid',bio:'wellpay_demo_v2_bio',locked:'wellpay_demo_v2_locked',active:'wellpay_demo_v2_active',chat:'wellpay_demo_v2_chat_',fab:'wellpay_demo_v2_fab',installX:'wellpay_demo_v2_installx',seen:'wellpay_demo_v2_seen_'};
 const IDLE_MS=30*60*1000; /* auto logout after 30 minutes of no activity */
 const NETWORKS=[{id:'MTN'},{id:'Airtel'},{id:'9mobile'},{id:'Glo'},{id:'Globacom',logo:'Glo'},{id:'Smile'}];
 const DATA_PLANS=[{name:'1GB',price:600},{name:'2GB',price:1100},{name:'3GB',price:1600},{name:'5GB',price:2500},{name:'10GB',price:4800}];
@@ -400,7 +456,7 @@ function renderAvatars(root=document){root.querySelectorAll('[data-avatar]').for
 function notify(msg){const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.add('hidden'),2600+msg.length*35)}
 
 /* ========== NAVIGATION ========== */
-const RENDER={homeScreen:()=>renderHome(),transactionsScreen:()=>renderTransactions(),settingsScreen:()=>renderSettings(),supportScreen:()=>openChat()};
+const RENDER={homeScreen:()=>renderHome(),transactionsScreen:()=>renderTransactions(),settingsScreen:()=>renderSettings(),supportScreen:()=>openChat(),notificationsScreen:()=>renderNotifications(),fundScreen:()=>{$('fundBal').textContent=balanceText(current.balance);$('fundAmount').value='';document.querySelectorAll('#fundScreen .amount').forEach(x=>x.classList.remove('sel'))}};
 function showScreen(id){
   document.querySelectorAll('.app>section').forEach(s=>s.classList.add('hidden'));
   $(id).classList.remove('hidden');
@@ -408,23 +464,23 @@ function showScreen(id){
   if(id==='homeScreen')renderHome();
   RENDER[id]&&RENDER[id]();window.scrollTo(0,0);
   if(id!=='supportScreen')stopChat();
-  updateFab(id);
+  updateFab(id);curScreen=id;updateInstallBar(id);
 }
 const openDrawer=()=>$('drawerLayer').classList.remove('hidden');
 const closeDrawer=()=>$('drawerLayer').classList.add('hidden');
-function logout(){closeDrawer();if(LIVE){if(getBio()?.userId===current?.id)localStorage.setItem(KEYS.locked,'1');else fa.signOut()}current=null;sessionStorage.removeItem(KEYS.session);showScreen('loginScreen');$('loginForm').reset();prefillLogin();updateBioButton();notify(LIVE?'You have logged out.':'You have logged out. Your demo account is still saved on this device.')}
+function logout(){closeDrawer();stopNotifs();announcements=[];if(LIVE){if(getBio()?.userId===current?.id)localStorage.setItem(KEYS.locked,'1');else fa.signOut()}current=null;sessionStorage.removeItem(KEYS.session);showScreen('loginScreen');$('loginForm').reset();prefillLogin();updateBioButton();notify(LIVE?'You have logged out.':'You have logged out. Your demo account is still saved on this device.')}
 
 /* ========== RENDERERS ========== */
-function txRow(t){return`<div class="row"><div><b>${t.type}</b><small>${t.detail} · ${t.phone}<br>${t.date}</small></div><div style="text-align:right;font-weight:900">${money(t.amount)}<small style="color:#0b9b37">DEMO</small></div></div>`}
+function txRow(t){const cr=t.credit;return`<div class="row"><div><b>${esc(t.type)}</b><small>${esc(t.detail)}${t.phone?' · '+esc(t.phone):''}<br>${esc(t.date)}</small></div><div style="text-align:right;font-weight:900;color:${cr?'#0b9b37':'inherit'}">${cr?'+':''}${money(t.amount)}<small style="color:#0b9b37">Successful</small></div></div>`}
 const myTx=()=>read(KEYS.tx).filter(t=>t.userId===current?.id);
-function renderHome(){
+function renderHome(){updateNotifBadge();
   if(!current)return;renderAvatars();$('walletValue').textContent=balanceText(current.balance);
   $('helloName').textContent='Hello, '+current.name.split(' ')[0]+'!';$('drawerName').textContent=current.name;$('drawerEmail').textContent=current.email;
   const r=myTx().slice(0,3);$('recentTransactions').innerHTML=r.length?r.map(txRow).join(''):'<div class="empty">Your recent transactions will appear here.</div>';
 }
 const renderTransactions=()=>{const t=myTx();$('allTransactions').innerHTML=t.length?t.map(txRow).join(''):'<div class="empty">No transactions yet.</div>'};
 const renderSettings=()=>{const ed=f=>`<button class="link" data-act="edit" data-field="${f}">Edit</button>`;
-  $('settingsInfo').innerHTML=[['Full name',esc(current.name),ed('name')],['Phone',esc(current.phone),ed('phone')],['Email',esc(current.email)+(LIVE?'<span class="badge">✓ verified</span>':''),ed('email')],['Password','••••••••',`<button class="link" data-act="edit" data-field="password">Change</button>`],['Account type',LIVE?'Standard account':'Demo account','']].map(([a,b,c])=>`<div class="row"><b>${a}</b><span>${b} ${c}</span></div>`).join('')+`<div class="row"><b>Fingerprint login</b><button class="link" data-act="bioToggle">${getBio()?.userId===current.id?'Turn off':'Turn on'}</button></div>`};
+  $('settingsInfo').innerHTML=[['Full name',esc(current.name),ed('name')],['Phone',esc(current.phone),ed('phone')],['Email',esc(current.email)+(LIVE?'<span class="vbadge">✓ verified</span>':''),ed('email')],['Password','••••••••',`<button class="link" data-act="edit" data-field="password">Change</button>`],['Account type',LIVE?'Standard account':'Demo account','']].map(([a,b,c])=>`<div class="row"><b>${a}</b><span>${b} ${c}</span></div>`).join('')+`<div class="row"><b>Fingerprint login</b><button class="link" data-act="bioToggle">${getBio()?.userId===current.id?'Turn off':'Turn on'}</button></div>`+(canInstall()?'<div class="row"><b>Install app</b><button class="link" data-act="install">Install</button></div>':'')};
 function renderStatic(){
   $('quickServices').innerHTML=SERVICES.map((s,i)=>`<button ${s.go?`data-go="${s.go}"`:`data-act="toast" data-msg="${s.n} will be connected when this service is activated."`}><span class="quickicon ${s.c}"><i data-ic="${s.ic}"></i></span>${s.label}</button>`).join('');
   $('allServices').innerHTML=[['globe','Buy Data','dataScreen'],['phone','Buy Airtime','airtimeScreen']].map(([i,l,g])=>`<div class="row" data-go="${g}"><span><i data-ic="${i}"></i> ${l}</span>›</div>`).join('')+SERVICES.slice(0,3).map(s=>`<div class="row" data-act="toast" data-msg="Coming in a future version."><span><i data-ic="${s.ic}"></i> ${s.label.replace('<br>',' ')}</span>›</div>`).join('');
@@ -444,29 +500,106 @@ function complete({type,detail,phone,amount,message}){
   if(amount>current.balance)return notify('Insufficient wallet balance. Your balance is '+balanceText(current.balance)+'. Fund your wallet to continue.');
   const accts=read(KEYS.accounts),acct=accts.find(x=>x.id===current.id);
   current.balance-=amount;if(acct){acct.balance=current.balance;write(KEYS.accounts,accts)}
-  const tx={id:txId(),userId:current.id,type,detail,phone,amount,date:nowText()};
+  const tx={id:txId(),userId:current.id,type,detail,phone,amount,date:nowText(),ts:Date.now()};
   const all=read(KEYS.tx);all.unshift(tx);write(KEYS.tx,all);
+  showSuccess(tx,message);
+}
+function showSuccess(tx,message){
   $('successText').textContent=message;$('receipt').innerHTML=`Transaction ID: ${tx.id}<br>Date: ${tx.date}`;
   $('confetti').innerHTML=[[12,40,'#2f6bff',20],[22,22,'#ffb12e',-40],[32,70,'#22c900',60],[70,28,'#8b5a2b',-30],[82,66,'#2f6bff',50],[90,34,'#ffb12e',-60],[60,90,'#ff4a4a',30],[8,100,'#ff4a4a',-20]].map(([l,t,c,r])=>`<i class="confetti" style="left:${l}%;top:${t}px;background:${c};transform:rotate(${r}deg)"></i>`).join('');
   showScreen('successScreen');
 }
+function creditWallet(n){
+  const accts=read(KEYS.accounts),acct=accts.find(x=>x.id===current.id);
+  current.balance+=n;if(acct){acct.balance=current.balance;write(KEYS.accounts,accts)}
+  const tx={id:txId(),userId:current.id,type:'Wallet Funding',detail:'Wallet top-up',phone:'',amount:n,credit:true,date:nowText(),ts:Date.now()};
+  const all=read(KEYS.tx);all.unshift(tx);write(KEYS.tx,all);
+  showSuccess(tx,`Your wallet has been funded with ${money(n)}.`);
+}
 function buyData(){
   const n=sel.net,p=sel.plan,phone=normalizePhone($('dataPhone').value);
   if(!validPhone(phone)){notify('Please enter a valid 11-digit Nigerian phone number.');$('dataPhone').focus();return}
-  complete({type:'Data Subscription',detail:`${p.name} ${n} data`,phone,amount:p.price,message:`You have successfully bought ${p.name} of data on ${n}.`});
+  confirmOrder({type:'Data Subscription',detail:`${p.name} ${n} data`,phone,amount:p.price,message:`You have successfully bought ${p.name} of data on ${n}.`});
 }
 function buyAirtime(){
   const phone=normalizePhone($('airPhone').value);
   if(!validPhone(phone)){notify('Please enter a valid 11-digit Nigerian phone number.');$('airPhone').focus();return}
   if(!sel.amount){notify('Select an amount to continue.');return}
   const net=detectNetwork(phone);
-  complete({type:'Airtime Purchase',detail:`${net} airtime`.trim(),phone,amount:sel.amount,message:`You have successfully bought ${money(sel.amount)} airtime${net?' on '+net:''}.`});
+  confirmOrder({type:'Airtime Purchase',detail:`${net} airtime`.trim(),phone,amount:sel.amount,message:`You have successfully bought ${money(sel.amount)} airtime${net?' on '+net:''}.`});
 }
 function chooseAmount(btn){
-  if(btn.dataset.amount!=='Other'){pick(btn,'amount');sel.amount=Number(btn.dataset.amount);return}
-  const n=Number(prompt('Enter airtime amount in naira:'));
-  if(!Number.isFinite(n)||n<50||n>50000){notify('Enter an amount between ₦50 and ₦50,000.');return}
-  pick(btn,'amount');sel.amount=Math.round(n);notify('Custom amount selected: '+money(sel.amount));
+  if(btn.dataset.amount!=='Other'){pick(btn,'amount');sel.amount=Number(btn.dataset.amount);const o=btn.parentElement.querySelector('[data-amount="Other"]');if(o)o.textContent='Other';return}
+  amountSheet(btn);
+}
+
+/* ========== BRANDED SHEETS (order, amount, funding) ========== */
+let pendingOrder=null,pendingAmountBtn=null,pendingFund=0;
+function openSheet(html){$('sheetBody').innerHTML=html;$('sheetLayer').classList.remove('hidden');const i=$('sheetBody').querySelector('input');if(i)setTimeout(()=>i.focus(),60)}
+function closeSheet(){$('sheetLayer').classList.add('hidden')}
+function confirmOrder(o){
+  pendingOrder=o;const short=o.amount>current.balance;
+  openSheet(`<h3>Confirm your order</h3><p>Please check the details before you pay.</p>
+  <div class="orow"><span>Service</span><b>${esc(o.type)}</b></div>
+  <div class="orow"><span>Details</span><b>${esc(o.detail)}</b></div>
+  <div class="orow"><span>Phone number</span><b>${esc(o.phone)}</b></div>
+  <div class="orow"><span>Amount</span><b>${money(o.amount)}</b></div>
+  <div class="orow"><span>Wallet balance</span><b>${balanceText(current.balance)}</b></div>
+  ${short?'<div class="owarn">Your wallet balance is not enough for this order. Please fund your wallet to continue.</div><button class="btn btn-green" data-sh="goFund">Fund Wallet</button>':`<button class="btn btn-green" data-sh="pay">Pay ${money(o.amount)}</button>`}
+  <button class="btn btn-ghost" data-sh="close">Cancel</button>`);
+}
+function amountSheet(btn){
+  pendingAmountBtn=btn;
+  openSheet(`<h3>Enter airtime amount</h3><p>Choose any amount from ₦50 to ₦50,000.</p><input class="minput" id="sheetAmount" type="number" inputmode="numeric" placeholder="Amount (₦)"><button class="btn btn-green" data-sh="amountOk">Continue</button><button class="btn btn-ghost" data-sh="close">Cancel</button>`);
+}
+function fundContinue(){
+  const n=Math.round(Number($('fundAmount').value));
+  if(!Number.isFinite(n)||n<100||n>500000)return notify('Enter an amount between ₦100 and ₦500,000.');
+  pendingFund=n;
+  openSheet(`<h3>Fund your wallet</h3><p>Please confirm the amount to add.</p>
+  <div class="orow"><span>Amount</span><b>${money(n)}</b></div>
+  <div class="orow"><span>Current balance</span><b>${balanceText(current.balance)}</b></div>
+  <div class="orow"><span>New balance</span><b>${balanceText(current.balance+n)}</b></div>
+  <button class="btn btn-green" data-sh="fundNow">Fund ${money(n)}</button><button class="btn btn-ghost" data-sh="close">Cancel</button>`);
+}
+const SHEET={
+  close:closeSheet,
+  goFund:()=>{closeSheet();showScreen('fundScreen')},
+  pay:()=>{closeSheet();if(pendingOrder)complete(pendingOrder)},
+  fundNow:()=>{closeSheet();creditWallet(pendingFund)},
+  amountOk:()=>{
+    const n=Math.round(Number($('sheetAmount').value));
+    if(!Number.isFinite(n)||n<50||n>50000)return notify('Enter an amount between ₦50 and ₦50,000.');
+    pick(pendingAmountBtn,'amount');sel.amount=n;pendingAmountBtn.textContent=money(n);closeSheet();
+  }
+};
+$('sheetLayer').addEventListener('click',e=>{if(e.target.id==='sheetLayer')return closeSheet();const b=e.target.closest('[data-sh]');if(b&&SHEET[b.dataset.sh])SHEET[b.dataset.sh]()});
+
+/* ========== NOTIFICATIONS ========== */
+let announcements=[],notifUnsub=null;
+const seenKey=()=>KEYS.seen+current.id;
+function allNotifs(){
+  const tx=myTx().slice(0,15).map(t=>({ts:t.ts||0,icon:t.credit?'wallet':'history',title:t.credit?'Wallet funded':t.type+' successful',body:t.credit?`${money(t.amount)} was added to your wallet.`:`${t.detail} · ${money(t.amount)}`,when:t.date}));
+  const an=announcements.map(a=>({ts:a.ts||0,icon:'bell',admin:true,title:a.title,body:a.body,when:new Date(a.ts||Date.now()).toLocaleString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}));
+  const welcome={ts:0,icon:'bell',admin:true,title:'Welcome to Well Pay 🎉',body:'Fund your wallet to start buying data and airtime.',when:''};
+  return [...an,...tx].sort((a,b)=>b.ts-a.ts).concat([welcome]);
+}
+function updateNotifBadge(){
+  const b=$('notifBadge');if(!b||!current)return;
+  const seen=Number(localStorage.getItem(seenKey())||0),n=allNotifs().filter(x=>x.ts>seen).length;
+  b.textContent=n>9?'9+':n;b.classList.toggle('hidden',!n);
+}
+function renderNotifications(){
+  $('notifList').innerHTML=allNotifs().map(n=>`<div class="nrow ${n.admin?'adm':''}"><div class="ni"><i data-ic="${n.icon}"></i></div><div><b>${esc(n.title)}</b><small>${esc(n.body)}${n.when?'<br>'+esc(n.when):''}</small></div></div>`).join('');
+  if(typeof hydrate==='function')hydrate();
+  localStorage.setItem(seenKey(),Date.now());updateNotifBadge();
+}
+function stopNotifs(){if(notifUnsub){notifUnsub();notifUnsub=null}}
+function startNotifs(){
+  stopNotifs();updateNotifBadge();if(!LIVE)return;
+  notifUnsub=fdb.collection('notifications').orderBy('ts','desc').limit(30).onSnapshot(q=>{
+    announcements=q.docs.map(d=>d.data());updateNotifBadge();if(curScreen==='notificationsScreen')renderNotifications();
+  },()=>{});
 }
 
 /* ========== EVENTS ========== */
@@ -474,7 +607,7 @@ const ACTIONS={
   drawer:openDrawer,closeDrawer,logout,buyData,buyAirtime,
   toast:b=>notify(b.dataset.msg),
   bioLogin,bioToggle:()=>{if(getBio()?.userId===current.id){localStorage.removeItem(KEYS.bio);notify('Fingerprint login turned off.');renderSettings();updateBioButton()}else enableBio()},
-  avatar:()=>$('avatarInput').click(),edit:b=>openEdit(b.dataset.field),forgot:forgotPassword,
+  avatar:()=>$('avatarInput').click(),edit:b=>openEdit(b.dataset.field),notif:()=>showScreen('notificationsScreen'),fundContinue,fundPick:b=>{$('fundAmount').value=b.dataset.amount;b.parentElement.querySelectorAll('.amount').forEach(x=>x.classList.toggle('sel',x===b))},install:installApp,forgot:forgotPassword,
   eye:b=>{const i=$(b.dataset.target);i.type=i.type==='password'?'text':'password';b.innerHTML=icon(i.type==='password'?'eye':'eyeoff')}
 };
 document.addEventListener('click',e=>{
@@ -588,7 +721,7 @@ $('editSave').addEventListener('click',async()=>{
   try{await EDITS[editKey](v,pw)}catch(err){notify(authErr(err))}
   b.disabled=false;
 });
-function startSession(a){sessionStorage.setItem(KEYS.session,a.id);localStorage.removeItem(KEYS.locked);touch();current={id:a.id,name:a.name,phone:a.phone,email:a.email,photo:a.photo||'',balance:a.balance??DEFAULT_BALANCE};showScreen('homeScreen')}
+function startSession(a){sessionStorage.setItem(KEYS.session,a.id);localStorage.removeItem(KEYS.locked);touch();current={id:a.id,name:a.name,phone:a.phone,email:a.email,photo:a.photo||'',balance:a.balance??DEFAULT_BALANCE};startNotifs();showScreen('homeScreen')}
 
 
 /* ========== FINGERPRINT LOGIN (WebAuthn, uses the phone's own fingerprint) ========== */
@@ -648,6 +781,23 @@ async function sendChat(){
 $('chatSend').addEventListener('click',sendChat);
 $('chatInput').addEventListener('input',e=>{e.target.style.height='48px';e.target.style.height=Math.min(e.target.scrollHeight,110)+'px'});
 $('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&window.innerWidth>700){e.preventDefault();sendChat()}});
+
+/* ========== INSTALL APP (add to home screen) ========== */
+let deferredInstall=null,curScreen='';
+const isStandalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+const canInstall=()=>!isStandalone()&&(!!deferredInstall||isIOS);
+function updateInstallBar(id){$('installBar').classList.toggle('hidden',!(canInstall()&&!localStorage.getItem(KEYS.installX)&&id==='loginScreen'))}
+async function installApp(){
+  $('installBar').classList.add('hidden');
+  if(deferredInstall){deferredInstall.prompt();try{const c=await deferredInstall.userChoice;if(c.outcome==='accepted')localStorage.setItem(KEYS.installX,'1')}catch(e){}deferredInstall=null;updateInstallBar(curScreen);if(curScreen==='settingsScreen')renderSettings();return}
+  if(isIOS)notify('On iPhone: tap the Share button in Safari, then choose "Add to Home Screen".');
+}
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;updateInstallBar(curScreen);if(curScreen==='settingsScreen'&&current)renderSettings()});
+addEventListener('appinstalled',()=>{deferredInstall=null;updateInstallBar(curScreen);notify('Well Pay installed.')});
+$('installBtn').addEventListener('click',installApp);
+$('installX').addEventListener('click',()=>{localStorage.setItem(KEYS.installX,'1');$('installBar').classList.add('hidden')});
+if('serviceWorker' in navigator&&location.protocol==='https:')addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 
 /* ========== FLOATING HELP BUTTON (draggable shortcut to support) ========== */
 const fab=$('helpFab'),FAB=56,GAP=10;

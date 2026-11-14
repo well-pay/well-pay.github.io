@@ -22,8 +22,9 @@ header button{background:#ffffff26;border:0;color:#fff;border-radius:10px;paddin
 .empty{color:#7884a2;text-align:center;margin:auto;padding:30px}
 @media(max-width:700px){#app{grid-template-columns:1fr}#chat{display:none}#app.open #list{display:none}#app.open #chat{display:flex}#back{display:inline-block!important}}
 </style></head><body>
-<div id="login"><h2>Well Pay Admin</h2><input id="em" type="email" placeholder="Admin email" autocapitalize="none"><input id="pw" type="password" placeholder="Password"><button class="btn" id="go">Log in</button><p id="err" style="color:#c00;font-size:13px"></p></div>
-<div id="main" class="hidden"><header><span><button id="back" style="display:none;margin-right:8px">‹</button>Support Inbox</span><button id="out">Log out</button></header>
+<div id="login"><h2>Well Pay Admin</h2><input id="em" type="email" placeholder="Admin email" autocapitalize="none"><input id="pw" type="password" placeholder="Password"><button class="btn" id="go">Log in</button><p><a href="#" id="fp" style="font-size:13px;color:#0751df">Forgot password?</a></p><p id="err" style="color:#c00;font-size:13px"></p></div>
+<div id="main" class="hidden"><header><span><button id="back" style="display:none;margin-right:8px">‹</button>Support Inbox</span><span><button id="tabMsg">Messages</button> <button id="tabAnn">Announcements</button> <button id="out">Log out</button></span></header>
+<div id="ann" class="hidden" style="padding:16px;max-width:640px;margin:0 auto;overflow-y:auto;height:calc(100% - 52px)"><h3>Send an announcement to all users</h3><input id="annTitle" placeholder="Title (e.g. New data prices)"><textarea id="annBody" rows="4" placeholder="Message"></textarea><button class="btn" id="annSend">Send to everyone</button><p id="annMsg" style="font-size:13px"></p><h3>Sent announcements</h3><div id="annList"></div></div>
 <div id="app"><div id="list"></div><div id="chat"><div id="chatHead"><b id="who">Select a conversation</b><br><small id="meta"></small></div><div id="thread"><div class="empty">Choose a customer on the left to read and reply.</div></div><div id="bar" class="hidden"><textarea id="reply" placeholder="Type your reply..."></textarea><button class="btn" id="send">Send</button></div></div></div></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -38,8 +39,15 @@ if(!FIREBASE.apiKey){$('err').textContent='Add your Firebase config at the top o
 else{
 firebase.initializeApp(FIREBASE);const auth=firebase.auth(),db=firebase.firestore();
 let unList=null,unThread=null,cur=null,chats=[];
-$('go').onclick=async()=>{$('err').textContent='';try{await auth.signInWithEmailAndPassword($('em').value.trim(),$('pw').value)}catch(e){$('err').textContent='Login failed.'}};
+$('go').onclick=async()=>{$('err').textContent='';try{await auth.signInWithEmailAndPassword($('em').value.trim(),$('pw').value)}catch(e){const m={'auth/invalid-credential':'Wrong email or password. If you registered this email in the Well Pay app, use that same password (or tap Forgot password).','auth/invalid-email':'Enter a valid email.','auth/too-many-requests':'Too many attempts. Wait a few minutes.','auth/network-request-failed':'No internet connection.'};$('err').textContent=m[e.code]||('Login failed: '+(e.code||e.message))}};
 $('out').onclick=()=>auth.signOut();
+$('fp').onclick=async e=>{e.preventDefault();const em=$('em').value.trim();if(!em){$('err').textContent='Type your admin email above first.';return}try{await auth.sendPasswordResetEmail(em);$('err').style.color='#0a7a1c';$('err').textContent='If that email has an account, a reset link was sent.'}catch(x){$('err').textContent='Could not send reset email.'}};
+$('tabMsg').onclick=()=>{$('app').classList.remove('hidden');$('ann').classList.add('hidden')};
+$('tabAnn').onclick=()=>{$('app').classList.add('hidden');$('ann').classList.remove('hidden')};
+$('annSend').onclick=async()=>{const title=$('annTitle').value.trim(),body=$('annBody').value.trim();if(!title||!body){$('annMsg').textContent='Write a title and a message.';return}try{await db.collection('notifications').add({title,body,ts:Date.now()});$('annTitle').value='';$('annBody').value='';$('annMsg').style.color='#0a7a1c';$('annMsg').textContent='Sent. Every user will see it in their notifications.'}catch(e){$('annMsg').style.color='#c00';$('annMsg').textContent='Could not send. Check your Firestore rules.'}};
+let unAnn=null;
+auth.onAuthStateChanged(u=>{if(unAnn){unAnn();unAnn=null}const ok=u&&u.email&&u.email.toLowerCase()===ADMIN_EMAIL.toLowerCase();if(ok)unAnn=db.collection('notifications').orderBy('ts','desc').limit(50).onSnapshot(q=>{$('annList').innerHTML=q.docs.map(d=>{const a=d.data();return`<div style="background:#fff;border:1px solid #e0e7fa;border-radius:12px;padding:12px;margin-bottom:8px"><b>${esc(a.title)}</b><br>${esc(a.body)}<br><small style="color:#68749a">${new Date(a.ts).toLocaleString()}</small> <button data-del="${d.id}" style="float:right;border:0;background:#ffe3e3;color:#a32020;border-radius:8px;padding:4px 10px">Delete</button></div>`}).join('')||'<div class="empty">None yet.</div>'})});
+$('annList').onclick=e=>{const id=e.target.dataset.del;if(id&&confirm('Delete this announcement?'))db.collection('notifications').doc(id).delete()};
 auth.onAuthStateChanged(u=>{
   const ok=u&&u.email&&u.email.toLowerCase()===ADMIN_EMAIL.toLowerCase();
   if(u&&!ok){auth.signOut();$('err').textContent='This account is not an admin.';return}

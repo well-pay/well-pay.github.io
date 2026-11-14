@@ -1,0 +1,16 @@
+{
+  "name": "Well Pay",
+  "short_name": "Well Pay",
+  "description": "Pay Smarter, Live Better. Buy data and airtime fast.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#061b7d",
+  "theme_color": "#0737c8",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
