@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="en" class="booting">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0737c8">
+<title>Well Pay</title>
+<style>
+/* ========== 1. TOKENS & BASE ========== */
+:root{--blue:#0738c9;--blue2:#0751df;--deep:#061b7d;--green:#16c900;--green2:#0aa81c;--ink:#101b43;--muted:#68749a;--line:#e0e7fa;--bg:#f4f7ff;
+--grad:linear-gradient(150deg,#061b7d,#0746dc);--grad-green:linear-gradient(110deg,#17c900,#0a9f1c)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:#e8edfb}
+button,input{font:inherit}button{cursor:pointer;color:inherit}
+.hidden{display:none!important}
+.app{max-width:480px;min-height:100dvh;margin:auto;background:var(--bg);position:relative;overflow:hidden;box-shadow:0 0 35px #071b6320}
+[data-ic]{display:inline-flex;flex:none}[data-ic] svg{width:1em;height:1em}
+.btn{border:0;border-radius:30px;min-height:52px;width:100%;font-weight:800;font-size:17px;color:#fff}
+.btn-blue{background:linear-gradient(100deg,#0a56ec,#062b9e)}
+.btn-green{background:linear-gradient(100deg,#12c900,#22dc08);box-shadow:0 5px 12px #16c90030;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-outline{background:#fff;border:1.5px solid #13b53b;color:#087b2a;font-size:15px;min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px}
+.link{border:0;background:none;color:#0646d5;font-weight:700}
+.demo-note{font-size:11px;color:#7883a2;text-align:center;margin:12px 0 0;line-height:1.4}
+
+/* ========== 2. BRAND ========== */
+.brand{text-align:center;color:#fff}
+.brand [data-logo]{display:block;width:175px;margin:0 auto}
+.brand-name{font-size:46px;font-weight:900;letter-spacing:-2px;line-height:1;margin-top:-4px}
+.brand-name span,.topbrand span{color:#25e500}
+.slogan{font-size:15px;font-weight:700;font-style:italic;margin:9px 0 0}
+
+/* ========== 3. AUTH ========== */
+.auth{min-height:100dvh;background:#fff;display:flex;flex-direction:column}
+.auth-head{height:300px;flex:none;position:relative;padding-top:34px;background:radial-gradient(circle at 92% 8%,#1f6dff,transparent 52%),linear-gradient(160deg,#08229a,#0a43d6)}
+.auth-head svg.wave{position:absolute;left:0;bottom:-1px;width:100%;height:70px}
+.auth-form{padding:2px 24px 14px;flex:1}
+.auth-title{display:flex;align-items:center;justify-content:center;gap:8px;font-size:23px;font-weight:900;margin:0}
+.auth-title [data-ic]{color:var(--blue);font-size:24px}
+.auth-sub{text-align:center;margin:4px 0 16px;font-size:15px;color:#1b2d69}
+.field{position:relative;margin:0 0 12px}
+.field>[data-ic]{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:#2a3c78;pointer-events:none}
+.field input{width:100%;height:48px;border:1.5px solid #dbe3fa;border-radius:13px;padding:0 46px 0 44px;font-size:15px;color:#17244e;background:#fff;outline:none}
+.field input:focus{border-color:#1455e9;box-shadow:0 0 0 3px #1455e91b}
+.eye{position:absolute;right:6px;top:6px;width:36px;height:36px;border:0;background:none;font-size:20px;color:#1a2c66;display:grid;place-items:center}
+.forgot{text-align:center;margin:12px 0}
+.or{display:flex;align-items:center;gap:10px;color:#56617e;font-size:13px;margin:12px 0}
+.or:before,.or:after{content:"";height:1px;background:#d8deed;flex:1}
+.auth-foot{position:relative;margin-top:auto;height:96px;color:#fff;font-size:13px;font-weight:700;text-align:center}
+.auth-foot svg{position:absolute;inset:0;width:100%;height:100%}.auth-foot span{position:absolute;left:0;right:0;bottom:16px}
+
+/* ========== 4. TOP BAR & PAGE HEADERS ========== */
+.topbar{height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;color:#fff;position:relative;z-index:2}
+.iconbtn{position:relative;width:40px;height:42px;border:0;background:none;color:#fff;font-size:27px;display:grid;place-items:center}
+.topbrand{font-size:27px;font-weight:900;letter-spacing:-1px}
+.badge{position:absolute;right:2px;top:2px;background:#ff3030;color:#fff;font-size:10px;font-weight:900;border-radius:20px;min-width:17px;height:17px;display:grid;place-items:center}
+.page-head{height:84px;background:var(--grad);color:#fff;display:flex;align-items:flex-start;justify-content:center;padding-top:24px;font-size:21px;font-weight:900;position:relative}
+.back{position:absolute;left:12px;top:17px;width:40px;height:40px;border:0;background:none;color:#fff;font-size:28px;display:grid;place-items:center}
+.sheet{background:#fff;border-radius:26px 26px 0 0;margin-top:-26px;position:relative;padding:18px 16px 28px;min-height:calc(100dvh - 58px)}
+.card{background:#fff;border-radius:18px;padding:16px;box-shadow:0 4px 16px #0b28680e}
+
+/* ========== 5. HOME ========== */
+.hero{background:radial-gradient(circle at 90% 0,#1565ff,transparent 55%),var(--grad);padding-bottom:20px;border-radius:0 0 30px 30px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;left:-30%;bottom:-70px;width:90%;height:120px;border-radius:50%;border-top:12px solid #1ed900;opacity:.8}
+.content{padding:0 14px 90px}.hero .content{padding-bottom:0;position:relative;z-index:1}
+.welcome{background:#ffffff1c;border:1px solid #ffffff22;border-radius:18px;padding:12px 14px;color:#fff;display:flex;align-items:center;gap:14px}
+.avatar{width:62px;height:62px;flex:none;border-radius:50%;background:#fff;color:#0743c6;display:grid;place-items:center;font-size:50px;overflow:hidden;border:3px solid #ffffff80}
+.welcome strong{font-size:21px}.welcome small{display:block;font-size:15px;margin-top:4px;color:#e4ecff}
+.balance{margin-top:10px;background:var(--grad-green);border-radius:18px;padding:16px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:8px;box-shadow:0 6px 14px #0ba51d40}
+.balance .w{display:flex;align-items:center;gap:12px}.balance .w>[data-ic]{font-size:40px}
+.balance small{font-size:14px}.balance b{display:block;font-size:26px;margin-top:3px}
+.fund-btn{background:#fff;color:#0f6a25;border:0;border-radius:24px;padding:11px 14px;font-weight:900;font-size:14px;white-space:nowrap}
+.features{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;position:relative;z-index:1}
+.feature{height:138px;border:0;border-radius:20px;color:#fff;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:20px;font-weight:900;line-height:1.15;box-shadow:0 8px 16px #071f7730}
+.feature>[data-ic]{font-size:46px}.feature.data{background:linear-gradient(145deg,#1b8cff,#0750df)}.feature.air{background:linear-gradient(145deg,#2ae000,#09a800)}
+.circle-arrow{position:absolute;right:10px;bottom:10px;width:30px;height:30px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:18px}
+.feature.data .circle-arrow{color:#0750df}.feature.air .circle-arrow{color:#09a800}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:18px 2px 10px}
+.section-head strong{font-size:18px}.see{background:none;border:0;color:#0644d5;font-weight:800;font-size:14px;display:flex;align-items:center;gap:3px}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.quick button{background:none;border:0;font-size:12px;font-weight:700;color:#111b3b;line-height:1.25}
+.quickicon{width:58px;height:58px;border-radius:16px;margin:0 auto 7px;display:grid;place-items:center;color:#fff;font-size:30px;box-shadow:0 4px 8px #17265a22}
+.purple{background:linear-gradient(145deg,#a333ff,#5d00cb)}.orange{background:linear-gradient(145deg,#ffb32e,#ed7600)}.green{background:linear-gradient(145deg,#15c94a,#008c36)}.blue{background:linear-gradient(145deg,#168cff,#0750dc)}
+.promo{margin-top:16px;border-radius:17px;padding:12px 14px;background:linear-gradient(110deg,#0733a8,#0751e9);color:#fff;display:flex;align-items:center;gap:12px;box-shadow:0 5px 13px #092a9c25}
+.promo [data-ic]{font-size:42px;color:#ffb12e}.promo strong{flex:1;font-size:17px;line-height:1.3}.promo strong span{color:#ffe33e}
+.promo button [data-ic]{font-size:20px;color:#0842c7}.promo button{border:0;border-radius:50%;width:36px;height:36px;color:#0842c7;background:#fff;font-size:20px;display:grid;place-items:center}
+.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);height:68px;background:#fff;border-top:1px solid #e1e7f5;display:flex;justify-content:space-around;z-index:6;padding-bottom:env(safe-area-inset-bottom)}
+.bottom button{background:none;border:0;border-bottom:3px solid transparent;color:#4e5a7c;font-size:11px;font-weight:700;min-width:76px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.bottom button [data-ic]{font-size:25px}.bottom button.active{color:var(--blue2);border-color:var(--blue2)}
+
+/* ========== 6. DRAWER ========== */
+.drawer-bg{position:fixed;inset:0;background:#06133c8c;z-index:20}
+.drawer{width:min(74%,320px);height:100%;background:#fff;box-shadow:10px 0 35px #0004;overflow:auto}
+.drawer-head{background:var(--grad);color:#fff;padding:26px 16px 22px}
+.drawer-brand{display:flex;align-items:center;gap:6px}.drawer-brand [data-logo]{width:72px}.drawer-brand .brand-name{font-size:28px;margin:0;letter-spacing:-1px}
+.drawer-head .slogan{margin:2px 0 18px;font-size:13px}
+.drawer-user{display:flex;align-items:center;gap:10px}.drawer-user .avatar{width:56px;height:56px;font-size:44px}
+.drawer-user b{font-size:16px}.drawer-user small{display:block;margin-top:4px;color:#dbe5ff;font-size:13px;word-break:break-all}
+.drawer-list{padding:10px 0}
+.drawer-list button{width:100%;height:52px;border:0;background:#fff;text-align:left;padding:0 18px;display:flex;align-items:center;gap:14px;font-weight:700;font-size:16px;color:#121b39}
+.drawer-list button [data-ic]{font-size:23px;color:var(--blue)}
+.drawer-list button.selected{background:#a9c8ff;color:#0748d9}.drawer-list button.logout [data-ic]{color:#e02d2d}
+
+/* ========== 7. PURCHASE SCREENS ========== */
+.label{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;margin:0 0 12px}
+.label.box{background:#f4f7ff;border:1px solid var(--line);border-radius:14px;padding:12px}
+.label [data-ic]{font-size:26px;color:var(--blue2)}
+.networks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.network{position:relative;height:90px;border:1.5px solid #e6ebf8;border-radius:14px;background:#fff;font-size:13px;font-weight:700;color:#1b2854;box-shadow:0 3px 8px #0b28680c;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.network svg{width:44px;height:44px}
+.network.sel{border:2px solid var(--blue2);background:#f1f6ff}
+.network.sel:after{content:"✓";position:absolute;right:-1px;top:-1px;width:22px;height:22px;border-radius:0 12px 0 10px;background:var(--blue2);color:#fff;font-size:13px;display:grid;place-items:center}
+.plans{border:1px solid #e3e9f7;border-radius:14px;overflow:hidden;margin:0 0 20px;box-shadow:0 3px 8px #0b28680a}
+.plan{height:56px;width:100%;background:#fff;border:0;border-bottom:1px solid #edf0f8;display:flex;align-items:center;gap:12px;padding:0 14px;font-weight:800;font-size:17px;color:#111b3d}
+.plan:last-child{border:0}.plan span:last-child{margin-left:auto}
+.radio{width:24px;height:24px;border:2px solid #9ba7c2;border-radius:50%;flex:none}.plan.sel .radio{border:7px solid var(--blue2)}
+.phone-field{position:relative;margin-bottom:22px}.phone-field>[data-ic]{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:20px;color:#2a3c78}
+.phone-field input{width:100%;height:52px;border:1.5px solid #d9e2fa;border-radius:13px;padding:0 14px 0 44px;font-size:16px;outline:none;background:#f9fbff}
+.phone-field input:focus{border-color:var(--blue2);box-shadow:0 0 0 3px #0750df18}
+.amounts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 24px}
+.amount{height:48px;background:#fff;border:1.5px solid #dce4f7;border-radius:12px;font-weight:800;font-size:16px;color:#1a2444}
+.amount.sel{border:2px solid var(--blue2);background:#f1f6ff;color:#0646c9}
+
+/* ========== 8. SUCCESS ========== */
+.success{min-height:100dvh;background:#fff;text-align:center;padding:70px 22px 130px;position:relative;overflow:hidden}
+.success>svg{position:absolute;left:0;width:100%;pointer-events:none}
+.confetti{position:absolute;width:14px;height:6px;border-radius:2px}
+.check{width:100px;height:100px;border-radius:50%;background:#12b82c;color:#fff;font-size:62px;display:grid;place-items:center;margin:20px auto 26px;position:relative;box-shadow:0 0 0 10px #12b82c14}
+.success h1{font-size:28px;margin:0 0 10px;color:#0b1f78}.success p{margin:0;font-size:17px;line-height:1.4;color:#17265b}
+.receipt{background:#e6eeff;border-radius:14px;padding:14px;margin:22px 0;line-height:1.7;color:#17265b;font-size:14px}
+.success .btn{position:relative}
+
+/* ========== 9. LISTS ========== */
+.simple-list .row{padding:14px 2px;border-bottom:1px solid #edf0f8;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.simple-list .row:last-child{border:0}.row small{display:block;font-size:12px;color:#7782a0;margin-top:4px;line-height:1.4}
+.empty{color:#7884a2;font-size:13px;padding:8px}
+.avatar{cursor:pointer}.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.remember{display:flex;align-items:center;gap:8px;font-size:14px;color:#27396c;margin:2px 0 12px}.remember input{width:18px;height:18px;accent-color:#0751df}
+.btn-bio{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:12px;background:none;border:0;color:#0646d5;font-weight:800;font-size:15px}.btn-bio [data-ic]{font-size:26px}
+#toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%);background:#13204c;color:#fff;padding:12px 16px;border-radius:12px;z-index:40;font-size:13px;max-width:90%;text-align:center}
+@media(min-width:481px){body{padding:16px 0}.app{min-height:calc(100dvh - 32px);border-radius:24px}.bottom{bottom:16px;border-radius:0 0 24px 24px}}
+
+/* ========== BOOT SPLASH (no login flash on refresh) ========== */
+html.booting .app>section{display:none!important}
+html.booting .app{background:var(--grad)}
+#splash{display:none;position:fixed;inset:0;z-index:100;align-items:center;justify-content:center;padding-bottom:6vh;background:radial-gradient(circle at 92% 8%,#1f6dff,transparent 52%),linear-gradient(160deg,#08229a,#0a43d6)}
+html.booting #splash{display:flex}
+html.booting #helpFab{display:none!important}
+/* ========== EDIT MODAL ========== */
+#editLayer{position:fixed;inset:0;background:#061b7d99;z-index:50;display:flex;align-items:flex-end;justify-content:center}
+#editLayer .modal{background:#fff;width:100%;max-width:480px;border-radius:24px 24px 0 0;padding:22px 20px calc(22px + env(safe-area-inset-bottom,0px))}
+#editLayer h3{margin:0 0 6px;font-size:19px}#editLayer p{margin:0 0 14px;color:#667294;font-size:13px;line-height:1.5}
+.minput{width:100%;height:50px;border:1.5px solid var(--line);border-radius:14px;padding:0 14px;margin-bottom:12px;font-size:16px;background:#f9fbff}
+#editLayer .btn{margin-top:4px}#editLayer .btn-outline{margin-top:10px;border-color:var(--line);color:var(--muted)}
+.badge{font-size:11px;font-weight:800;color:#0b9b37;margin-left:4px}
+
+/* ========== SUPPORT CHAT + HELP BUTTON ========== */
+#helpFab{position:fixed;left:0;top:0;width:56px;height:56px;border-radius:50%;border:0;background:var(--grad-green);color:#fff;font-size:26px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px #0a9f1c66,0 0 0 4px #ffffffcc;z-index:18;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
+#helpFab.drag{cursor:grabbing;transform:scale(1.08)}
+.chat-hello{background:linear-gradient(110deg,#eef3ff,#e9fbe9);border-radius:16px;padding:14px;margin-bottom:12px}
+.chat-hello b{display:block;font-size:16px;margin-bottom:4px}.chat-hello span{font-size:13px;color:#4f5c82;line-height:1.5}
+#chatThread{min-height:240px;max-height:calc(100dvh - 430px);overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:4px 2px 8px}
+.bubble{max-width:82%;padding:10px 13px;border-radius:16px;font-size:14px;line-height:1.45;word-wrap:break-word;white-space:pre-wrap}
+.bubble small{display:block;font-size:10px;opacity:.65;margin-top:3px}
+.bubble.me{align-self:flex-end;background:linear-gradient(100deg,#0a56ec,#062b9e);color:#fff;border-bottom-right-radius:4px}
+.bubble.admin{align-self:flex-start;background:#eef2fb;color:var(--ink);border-bottom-left-radius:4px}
+.chat-wait{background:#fff8e6;border:1px solid #ffe3a3;color:#7a5a00;border-radius:14px;padding:10px 12px;font-size:12.5px;line-height:1.5;margin:6px 0 10px}
+.chat-bar{display:flex;gap:8px;align-items:flex-end;position:sticky;bottom:8px;background:#fff;padding-top:6px}
+.chat-bar textarea{flex:1;border:1.5px solid var(--line);border-radius:18px;padding:12px 14px;font-size:15px;resize:none;height:48px;max-height:110px;background:#f9fbff;font-family:inherit}
+.chat-bar button{width:48px;height:48px;border-radius:50%;border:0;background:var(--grad-green);color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;flex:none}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><clipPath id="wp-top"><rect x="0" y="75" width="1000" height="360"/></clipPath><clipPath id="wp-cw"><path d="M0 0H580V237C560 240 380 295 262 432L0 432Z"/></clipPath><clipPath id="wp-cg"><path d="M580 0H1000V500H262V432C380 295 560 235 700 232L580 237Z"/></clipPath></defs></svg>
+<div id="splash"><div class="brand"><div data-logo></div><div class="brand-name">Well <span>Pay</span></div><p class="slogan">...Pay Smarter, Live Better</p></div></div>
+<script>
+const LOGO=`<svg viewBox="100 40 850 400"><g clip-path="url(#wp-top)"><g clip-path="url(#wp-cw)"><path d="M142,-87 L330,400 L455,125 L580,400 L767,-87" transform="translate(6,6)" fill="none" stroke="#0b2699" stroke-width="100" stroke-linejoin="round"/><path d="M142,-87 L330,400 L455,125 L580,400 L767,-87" fill="none" stroke="#fff" stroke-width="100" stroke-linejoin="round"/></g><g clip-path="url(#wp-cg)"><path d="M142,-87 L330,400 L455,125 L580,400 L767,-87" fill="none" stroke="#38e012" stroke-width="100" stroke-linejoin="round"/></g></g><path d="M262 432C380 272 600 192 800 206 862 212 906 242 934 284 880 256 800 236 700 258 590 276 490 330 425 432Z" fill="#38e012"/></svg>`;
+document.querySelector('#splash [data-logo]').innerHTML=LOGO;
+</script>
+
+<div class="app">
+
+<!-- LOGIN -->
+<section id="loginScreen" class="auth">
+  <div class="auth-head"><div class="brand"><div data-logo></div><div class="brand-name">Well <span>Pay</span></div><p class="slogan">...Pay Smarter, Live Better</p></div><div data-wave="head"></div></div>
+  <div class="auth-form">
+    <h1 class="auth-title"><i data-ic="lock"></i>Welcome Back</h1><p class="auth-sub">Login to your account</p>
+    <form id="loginForm" autocomplete="on">
+      <div class="field"><i data-ic="user"></i><input id="loginIdentity" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" inputmode="email" placeholder="Phone Number or Email" required></div>
+      <div class="field"><i data-ic="lock"></i><input id="loginPassword" name="password" type="password" autocomplete="current-password" placeholder="Password" required><button class="eye" type="button" data-act="eye" data-target="loginPassword" aria-label="Show password"><i data-ic="eye"></i></button></div>
+      <label class="remember"><input type="checkbox" id="rememberMe"> Remember me</label>
+      <button class="btn btn-blue" type="submit">Login</button>
+      <button class="btn-bio hidden" id="bioBtn" type="button" data-act="bioLogin"><i data-ic="fingerprint"></i>Login with fingerprint</button>
+    </form>
+    <div class="forgot"><button class="link" type="button" data-act="forgot">Forgot Password?</button></div>
+    <div class="or">OR</div>
+    <button class="btn btn-outline" data-go="registerScreen"><i data-ic="userplus"></i>Create New Account</button>
+    <p class="demo-note auth-note">Demo preview: accounts are stored only on this device.</p>
+  </div>
+  <footer class="auth-foot"><div data-wave="foot"></div><span>Well Pay • Fast • Secure • Reliable</span></footer>
+</section>
+
+<!-- REGISTER -->
+<section id="registerScreen" class="auth hidden">
+  <div class="auth-head"><div class="brand"><div data-logo></div><div class="brand-name">Well <span>Pay</span></div><p class="slogan">...Pay Smarter, Live Better</p></div><div data-wave="head"></div></div>
+  <div class="auth-form">
+    <h1 class="auth-title">Create New Account</h1><p class="auth-sub">Join Well Pay today</p>
+    <form id="registerForm" autocomplete="on">
+      <div class="field"><i data-ic="user"></i><input id="fullName" name="name" autocomplete="name" placeholder="Full Name" required></div>
+      <div class="field"><i data-ic="phone"></i><input id="phone" name="tel" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="Phone Number" required></div>
+      <div class="field"><i data-ic="mail"></i><input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" placeholder="Email Address" required></div>
+      <div class="field"><i data-ic="lock"></i><input id="newPassword" name="new-password" type="password" autocomplete="new-password" minlength="6" placeholder="Create Password (6+ characters)" required><button class="eye" type="button" data-act="eye" data-target="newPassword" aria-label="Show password"><i data-ic="eye"></i></button></div>
+      <button class="btn btn-green" type="submit">Create Account</button>
+    </form>
+    <div class="forgot">Already have an account? <button class="link" data-go="loginScreen">Login</button></div>
+    <p class="demo-note auth-note">Demo only. Do not use a real banking password.</p>
+  </div>
+  <footer class="auth-foot"><div data-wave="foot"></div><span>Well Pay • Fast • Secure • Reliable</span></footer>
+</section>
+
+<!-- HOME -->
+<section id="homeScreen" class="hidden">
+  <div class="hero">
+    <header class="topbar"><button class="iconbtn" data-act="drawer" aria-label="Open menu"><i data-ic="menu"></i></button><div class="topbrand">Well <span>Pay</span></div><button class="iconbtn" data-act="toast" data-msg="You are all caught up!" aria-label="Notifications"><i data-ic="bell"></i><i class="badge">2</i></button></header>
+    <div class="content">
+      <div class="welcome"><div class="avatar" data-avatar data-act="avatar" role="button" aria-label="Change profile photo"></div><div><strong id="helloName">Hello!</strong><small>Welcome back</small></div></div>
+      <div class="balance"><div class="w"><i data-ic="wallet"></i><div><small>Wallet Balance</small><b id="walletValue">₦2,500.00</b></div></div><button class="fund-btn" data-go="fundScreen">Fund Wallet</button></div>
+    </div>
+  </div>
+  <main class="content">
+    <div class="features">
+      <button class="feature data" data-go="dataScreen"><i data-ic="globe"></i>Buy<br>Data<span class="circle-arrow"><i data-ic="arrow"></i></span></button>
+      <button class="feature air" data-go="airtimeScreen"><i data-ic="phone"></i>Buy<br>Airtime<span class="circle-arrow"><i data-ic="arrow"></i></span></button>
+    </div>
+    <div class="section-head"><strong>Quick Services</strong><button class="see" data-go="servicesScreen">See All <i data-ic="arrow"></i></button></div>
+    <div class="quick" id="quickServices"></div>
+    <div class="promo"><i data-ic="gift"></i><strong>Enjoy Great Deals<br>with <span>Well Pay</span></strong><button data-act="toast" data-msg="Promotions will appear here when available."><i data-ic="arrow"></i></button></div>
+    <div class="section-head"><strong>Recent Transactions</strong><button class="see" data-go="transactionsScreen">See All <i data-ic="arrow"></i></button></div>
+    <div class="card simple-list" id="recentTransactions"></div>
+  </main>
+  <nav class="bottom">
+    <button class="active" data-go="homeScreen"><i data-ic="home"></i>Home</button>
+    <button data-go="transactionsScreen"><i data-ic="receipt"></i>Transactions</button>
+    <button data-go="supportScreen"><i data-ic="headset"></i>Support</button>
+    <button data-go="settingsScreen"><i data-ic="gear"></i>Settings</button>
+  </nav>
+</section>
+
+<!-- DRAWER -->
+<div id="drawerLayer" class="drawer-bg hidden" data-act="closeDrawer"><aside class="drawer">
+  <div class="drawer-head">
+    <div class="drawer-brand"><div data-logo></div><div class="brand-name">Well <span>Pay</span></div></div>
+    <p class="slogan">...Pay Smarter, Live Better</p>
+    <div class="drawer-user"><div class="avatar" data-avatar data-act="avatar" role="button" aria-label="Change profile photo"></div><div><b id="drawerName">Customer</b><small id="drawerEmail">user@email.com</small></div></div>
+  </div>
+  <div class="drawer-list">
+    <button class="selected" data-go="homeScreen"><i data-ic="home"></i>Dashboard</button>
+    <button data-go="transactionsScreen"><i data-ic="history"></i>My Transactions</button>
+    <button data-go="fundScreen"><i data-ic="wallet"></i>Fund Wallet</button>
+    <button data-go="settingsScreen"><i data-ic="gear"></i>Settings</button>
+    <button data-go="supportScreen"><i data-ic="headset"></i>Help &amp; Support</button>
+    <button class="logout" data-act="logout"><i data-ic="logout"></i>Logout</button>
+  </div>
+</aside></div>
+
+<!-- BUY DATA -->
+<section id="dataScreen" class="hidden">
+  <header class="page-head"><button class="back" data-go="homeScreen" aria-label="Back"><i data-ic="back"></i></button>Buy Data</header>
+  <div class="sheet">
+    <div class="label box"><i data-ic="globe"></i>Select Network</div><div class="networks" id="dataNetworks"></div>
+    <div class="label"><i data-ic="signal"></i>Select Data Plan</div><div class="plans" id="dataPlans"></div>
+    <div class="label"><i data-ic="phone"></i>Enter Phone Number</div>
+    <div class="phone-field"><i data-ic="contact"></i><input id="dataPhone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="e.g. 08012345678"></div>
+    <button class="btn btn-green" data-act="buyData">Proceed to Pay <i data-ic="arrow"></i></button>
+  </div>
+</section>
+
+<!-- BUY AIRTIME -->
+<section id="airtimeScreen" class="hidden">
+  <header class="page-head"><button class="back" data-go="homeScreen" aria-label="Back"><i data-ic="back"></i></button>Buy Airtime</header>
+  <div class="sheet">
+    <div class="label"><i data-ic="phone"></i>Enter Phone Number</div>
+    <div class="phone-field"><i data-ic="contact"></i><input id="airPhone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="e.g. 08012345678"></div>
+    <div class="label">Select Amount</div><div class="amounts" id="airAmounts"></div>
+    <button class="btn btn-green" data-act="buyAirtime">Buy Airtime <i data-ic="arrow"></i></button>
+  </div>
+</section>
+
+<!-- SUCCESS -->
+<section id="successScreen" class="hidden"><div class="success">
+  <div data-wave="success-top"></div><div data-wave="success-bottom"></div><div id="confetti"></div>
+  <div class="check"><i data-ic="check"></i></div>
+  <h1>Purchase Successful!</h1><p id="successText"></p>
+  <div class="receipt" id="receipt"></div>
+  <button class="btn btn-green" data-go="homeScreen">Done</button>
+  <p class="demo-note">Demo only: no payment was processed and nothing was delivered.</p>
+</div></section>
+
+<!-- OTHER PAGES -->
+<section id="transactionsScreen" class="hidden"><header class="page-head"><button class="back" data-go="homeScreen"><i data-ic="back"></i></button>My Transactions</header><div class="sheet"><div class="simple-list" id="allTransactions"></div></div></section>
+<section id="fundScreen" class="hidden"><header class="page-head"><button class="back" data-go="homeScreen"><i data-ic="back"></i></button>Fund Wallet</header><div class="sheet"><div class="label">Wallet Funding</div><p style="color:#667294;font-size:14px;line-height:1.5;margin-top:0">The wallet funding interface will be connected to a verified payment provider in the live version.</p><div class="phone-field"><i data-ic="wallet"></i><input id="fundAmount" type="number" inputmode="numeric" placeholder="Enter amount (₦)"></div><button class="btn btn-green" data-act="toast" data-msg="Demo only: no funds have been added.">Continue</button></div></section>
+<section id="servicesScreen" class="hidden"><header class="page-head"><button class="back" data-go="homeScreen"><i data-ic="back"></i></button>More Services</header><div class="sheet"><div class="simple-list" id="allServices"></div></div></section>
+<section id="settingsScreen" class="hidden"><header class="page-head"><button class="back" data-go="homeScreen"><i data-ic="back"></i></button>Settings</header><div class="sheet"><div class="simple-list" id="settingsInfo"></div></div></section>
+<section id="supportScreen" class="hidden"><header class="page-head"><button class="back" data-go="homeScreen"><i data-ic="back"></i></button>Help &amp; Support</header><div class="sheet">
+  <div class="chat-hello"><b>How can we help you?</b><span>Send us a message and our support team will reply right here. If we are online, you can chat with us live.</span></div>
+  <div id="chatThread"></div>
+  <div class="chat-wait hidden" id="chatWait">✅ Message received. Please be patient while our support team reviews your issue. We value you and will reply here as soon as possible.</div>
+  <p class="demo-note hidden" id="chatDemoNote">Demo mode: messages stay on this device until live accounts are connected.</p>
+  <div class="chat-bar"><textarea id="chatInput" rows="1" maxlength="1000" placeholder="Type your message..."></textarea><button id="chatSend" type="button" aria-label="Send"><i data-ic="arrow"></i></button></div>
+</div></section>
+<input type="file" id="avatarInput" accept="image/*" hidden>
+<button id="helpFab" class="hidden" type="button" aria-label="Help and support"><i data-ic="headset"></i></button>
+<div id="editLayer" class="hidden"><div class="modal"><h3 id="editTitle"></h3><p id="editHelp"></p><div id="editFields"></div><button class="btn btn-blue" id="editSave" type="button">Save</button><button class="btn btn-outline" id="editCancel" type="button">Cancel</button></div></div>
+<div id="toast" class="hidden"></div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+/* ========== CONFIG (edit data here) ========== */
+const CONFIG={DEMO_NOTES:true,
+  /* LIVE ACCOUNTS: paste your Firebase web-app config here (Firebase console > Project settings > Your apps).
+     While apiKey is empty, the app runs in local demo mode exactly as before. */
+  FIREBASE:{apiKey:'AIzaSyAao5u8qIQthcpqGw8YOgsW_XEMHV3lgWY',authDomain:'well-pay-ee8c3.firebaseapp.com',projectId:'well-pay-ee8c3',appId:'1:198988735407:web:be4fbed1a992a01def455a'}};
+const LIVE=!!(CONFIG.FIREBASE.apiKey&&window.firebase);
+let fa=null,fdb=null;
+if(LIVE){firebase.initializeApp(CONFIG.FIREBASE);fa=firebase.auth();fdb=firebase.firestore()}
+const AUTH_MSG={'auth/email-already-in-use':'An account with this email already exists. Please log in.','auth/invalid-credential':'Email or password is incorrect.','auth/wrong-password':'Password is incorrect.','auth/user-not-found':'Email or password is incorrect.','auth/invalid-email':'Enter a valid email address.','auth/weak-password':'Password must be at least 6 characters.','auth/too-many-requests':'Too many attempts. Please wait a few minutes and try again.','auth/network-request-failed':'No internet connection. Please try again.','auth/requires-recent-login':'Please log in again to do this.','auth/operation-not-allowed':'This sign-in method is not enabled yet in Firebase.'};
+const authErr=e=>AUTH_MSG[e&&e.code]||(e&&e.message)||'Something went wrong. Please try again.';
+const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const DEFAULT_BALANCE=2500;
+const KEYS={accounts:'wellpay_demo_v2_accounts',tx:'wellpay_demo_v2_transactions',session:'wellpay_demo_v2_session',remember:'wellpay_demo_v2_remember',lastId:'wellpay_demo_v2_lastid',bio:'wellpay_demo_v2_bio',locked:'wellpay_demo_v2_locked',active:'wellpay_demo_v2_active',chat:'wellpay_demo_v2_chat_',fab:'wellpay_demo_v2_fab'};
+const IDLE_MS=30*60*1000; /* auto logout after 30 minutes of no activity */
+const NETWORKS=[{id:'MTN'},{id:'Airtel'},{id:'9mobile'},{id:'Glo'},{id:'Globacom',logo:'Glo'},{id:'Smile'}];
+const DATA_PLANS=[{name:'1GB',price:600},{name:'2GB',price:1100},{name:'3GB',price:1600},{name:'5GB',price:2500},{name:'10GB',price:4800}];
+const AIRTIME_AMOUNTS=[100,200,500,1000,2000,'Other'];
+const SERVICES=[{label:'Electricity<br>Bills',ic:'bolt',c:'purple',n:'Electricity bills'},{label:'TV<br>Subscription',ic:'tv',c:'orange',n:'TV subscription'},{label:'Games<br>Top-up',ic:'game',c:'green',n:'Games top-up'},{label:'More<br>Services',ic:'dots',c:'blue',go:'servicesScreen'}];
+const PREFIXES={MTN:'0803 0806 0703 0706 0813 0816 0810 0814 0903 0906 0913 0916 0704',Airtel:'0802 0808 0708 0812 0701 0902 0901 0904 0907 0912',Glo:'0805 0807 0705 0815 0811 0905 0915','9mobile':'0809 0818 0817 0909 0908'};
+
+/* ========== ICONS & GRAPHICS ========== */
+const ICONS={
+lock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+user:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+userplus:'<path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/>',
+eye:'<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',
+eyeoff:'<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24M1 1l22 22"/>',
+menu:'<path d="M3 6h18M3 12h18M3 18h18"/>',
+bell:'<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/>',
+back:'<path d="M15 18l-6-6 6-6"/>',arrow:'<path d="M5 12h14M12 5l7 7-7 7"/>',check:'<path d="M20 6L9 17l-5-5" stroke-width="3.5"/>',
+globe:'<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+phone:'<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/>',
+wallet:'<path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/>',
+bolt:'<path d="M13 2L3 14h9l-1 8 10-12h-9z"/>',tv:'<rect x="2" y="7" width="20" height="15" rx="2"/><path d="M17 2l-5 5-5-5"/>',
+game:'<path d="M6 11h4M8 9v4M15 12h.01M18 10h.01"/><path d="M17.32 5H6.68a4 4 0 0 0-3.98 3.59C2.6 9.42 2 14.46 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.41-1.41A2 2 0 0 1 9.83 16h4.34a2 2 0 0 1 1.41.59L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.55-.6-6.58-.69-7.26A4 4 0 0 0 17.32 5z"/>',
+dots:'<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>',
+gift:'<path d="M20 12v10H4V12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>',
+home:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>',
+receipt:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/>',
+headset:'<path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>',
+gear:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
+history:'<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/>',
+logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
+signal:'<path d="M5 20v-5M12 20V11M19 20V5" stroke-width="4"/>',
+mail:'<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 6L2 7"/>',
+fingerprint:'<path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/><path d="M14 13.12c0 2.38 0 6.38-1 8.88"/><path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/><path d="M2 12a10 10 0 0 1 18-6"/><path d="M2 16h.01"/><path d="M21.8 16c.2-2 .131-5.354 0-6"/><path d="M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2"/><path d="M8.65 22c.21-.66.45-1.32.57-2"/><path d="M9 6.8a6 6 0 0 1 9 5.2v2"/>',
+contact:'<rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="9" cy="11" r="2.5"/><path d="M5 17c.7-2 2.2-3 4-3s3.3 1 4 3M15 9h4M15 13h4"/>'};
+const icon=n=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[n]||''}</svg>`;
+
+const NET_LOGOS={
+MTN:'<ellipse cx="24" cy="24" rx="22" ry="14" fill="#ffcb05"/><text x="24" y="29" text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="13" fill="#003a8c">MTN</text>',
+Airtel:'<path d="M35 12c-10-4-23 2-23 14 0 8 8 10 13 7 6-4 5-13-3-13-6 0-7 7-2 7" fill="none" stroke="#e40000" stroke-width="5" stroke-linecap="round"/>',
+'9mobile':'<circle cx="24" cy="24" r="21" fill="#0a5a2a"/><text x="24" y="33" text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="26" fill="#b4e000">9</text>',
+Glo:'<circle cx="24" cy="24" r="21" fill="#17a640"/><text x="24" y="29" text-anchor="middle" font-family="Arial" font-weight="900" font-size="15" fill="#fff">glo</text>',
+Smile:'<circle cx="24" cy="24" r="21" fill="#7bd23a"/><circle cx="17" cy="19" r="2.6" fill="#0a3d1a"/><circle cx="31" cy="19" r="2.6" fill="#0a3d1a"/><path d="M14 28c4 8 16 8 20 0" fill="none" stroke="#0a3d1a" stroke-width="3" stroke-linecap="round"/>'};
+const netLogo=n=>`<svg viewBox="0 0 48 48">${NET_LOGOS[n.logo||n.id]}</svg>`;
+const AVATAR='<svg viewBox="0 0 48 48" width="1em" height="1em"><circle cx="24" cy="18" r="9" fill="currentColor"/><path d="M5 48c0-12 8-19 19-19s19 7 19 19z" fill="currentColor"/></svg>';
+const WAVES={
+head:'<svg class="wave" viewBox="0 0 400 70" preserveAspectRatio="none"><path d="M0 38C90 8 250 62 400 22V70H0z" fill="#1ed900"/><path d="M0 50C90 20 250 74 400 34V70H0z" fill="#fff"/></svg>',
+foot:'<svg viewBox="0 0 400 96" preserveAspectRatio="none"><path d="M0 40C100 10 260 70 400 30V96H0z" fill="#16d900"/><path d="M0 50C100 20 260 80 400 40V96H0z" fill="#0a3bd0"/></svg>',
+'success-top':'<svg viewBox="0 0 400 120" preserveAspectRatio="none" style="top:0;height:110px"><path d="M400 0V120C340 90 300 40 250 0z" fill="#16c900"/><path d="M400 0V70C370 50 340 20 320 0z" fill="#0b8a1a"/></svg>',
+'success-bottom':'<svg viewBox="0 0 400 110" preserveAspectRatio="none" style="bottom:0;height:110px"><path d="M0 50C120 10 260 90 400 30V110H0z" fill="#16c900"/><path d="M0 66C120 26 260 106 400 46V110H0z" fill="#0646d8"/></svg>'};
+
+/* ========== HELPERS ========== */
+const $=id=>document.getElementById(id);
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return[]}};
+const write=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const money=n=>'₦'+Number(n).toLocaleString();
+const balanceText=n=>'₦'+Number(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+function normalizePhone(p){let d=String(p).replace(/\D/g,'');if(d.startsWith('234')&&d.length===13)d='0'+d.slice(3);else if(d.length===10&&d[0]!=='0')d='0'+d;return d}
+const validPhone=p=>/^0\d{10}$/.test(normalizePhone(p));
+const detectNetwork=p=>Object.keys(PREFIXES).find(n=>PREFIXES[n].split(' ').includes(p.slice(0,4)))||'';
+let current=null,sel={net:'MTN',plan:DATA_PLANS[0],amount:null},toastTimer;
+function hydrate(root=document){
+  root.querySelectorAll('[data-ic]').forEach(e=>{if(!e.firstChild)e.innerHTML=icon(e.dataset.ic)});
+  root.querySelectorAll('[data-logo]').forEach(e=>e.innerHTML=LOGO);
+  renderAvatars(root);
+  root.querySelectorAll('[data-wave]').forEach(e=>{e.outerHTML=WAVES[e.dataset.wave]});
+}
+function renderAvatars(root=document){root.querySelectorAll('[data-avatar]').forEach(e=>e.innerHTML=current&&current.photo?`<img src="${current.photo}" alt="Profile photo">`:AVATAR)}
+function notify(msg){const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.add('hidden'),2600+msg.length*35)}
+
+/* ========== NAVIGATION ========== */
+const RENDER={homeScreen:()=>renderHome(),transactionsScreen:()=>renderTransactions(),settingsScreen:()=>renderSettings(),supportScreen:()=>openChat()};
+function showScreen(id){
+  document.querySelectorAll('.app>section').forEach(s=>s.classList.add('hidden'));
+  $(id).classList.remove('hidden');
+  const nav=document.querySelector('#homeScreen .bottom');if(nav)nav.style.display=id==='homeScreen'?'flex':'none';
+  if(id==='homeScreen')renderHome();
+  RENDER[id]&&RENDER[id]();window.scrollTo(0,0);
+  if(id!=='supportScreen')stopChat();
+  updateFab(id);
+}
+const openDrawer=()=>$('drawerLayer').classList.remove('hidden');
+const closeDrawer=()=>$('drawerLayer').classList.add('hidden');
+function logout(){closeDrawer();if(LIVE){if(getBio()?.userId===current?.id)localStorage.setItem(KEYS.locked,'1');else fa.signOut()}current=null;sessionStorage.removeItem(KEYS.session);showScreen('loginScreen');$('loginForm').reset();prefillLogin();updateBioButton();notify(LIVE?'You have logged out.':'You have logged out. Your demo account is still saved on this device.')}
+
+/* ========== RENDERERS ========== */
+function txRow(t){return`<div class="row"><div><b>${t.type}</b><small>${t.detail} · ${t.phone}<br>${t.date}</small></div><div style="text-align:right;font-weight:900">${money(t.amount)}<small style="color:#0b9b37">DEMO</small></div></div>`}
+const myTx=()=>read(KEYS.tx).filter(t=>t.userId===current?.id);
+function renderHome(){
+  if(!current)return;renderAvatars();$('walletValue').textContent=balanceText(current.balance);
+  $('helloName').textContent='Hello, '+current.name.split(' ')[0]+'!';$('drawerName').textContent=current.name;$('drawerEmail').textContent=current.email;
+  const r=myTx().slice(0,3);$('recentTransactions').innerHTML=r.length?r.map(txRow).join(''):'<div class="empty">Your recent transactions will appear here.</div>';
+}
+const renderTransactions=()=>{const t=myTx();$('allTransactions').innerHTML=t.length?t.map(txRow).join(''):'<div class="empty">No transactions yet.</div>'};
+const renderSettings=()=>{const ed=f=>`<button class="link" data-act="edit" data-field="${f}">Edit</button>`;
+  $('settingsInfo').innerHTML=[['Full name',esc(current.name),ed('name')],['Phone',esc(current.phone),ed('phone')],['Email',esc(current.email)+(LIVE?'<span class="badge">✓ verified</span>':''),ed('email')],['Password','••••••••',`<button class="link" data-act="edit" data-field="password">Change</button>`],['Account type',LIVE?'Standard account':'Demo account','']].map(([a,b,c])=>`<div class="row"><b>${a}</b><span>${b} ${c}</span></div>`).join('')+`<div class="row"><b>Fingerprint login</b><button class="link" data-act="bioToggle">${getBio()?.userId===current.id?'Turn off':'Turn on'}</button></div>`};
+function renderStatic(){
+  $('quickServices').innerHTML=SERVICES.map((s,i)=>`<button ${s.go?`data-go="${s.go}"`:`data-act="toast" data-msg="${s.n} will be connected when this service is activated."`}><span class="quickicon ${s.c}"><i data-ic="${s.ic}"></i></span>${s.label}</button>`).join('');
+  $('allServices').innerHTML=[['globe','Buy Data','dataScreen'],['phone','Buy Airtime','airtimeScreen']].map(([i,l,g])=>`<div class="row" data-go="${g}"><span><i data-ic="${i}"></i> ${l}</span>›</div>`).join('')+SERVICES.slice(0,3).map(s=>`<div class="row" data-act="toast" data-msg="Coming in a future version."><span><i data-ic="${s.ic}"></i> ${s.label.replace('<br>',' ')}</span>›</div>`).join('');
+  $('dataNetworks').innerHTML=NETWORKS.map(n=>`<button class="network${n.id===sel.net?' sel':''}" data-net="${n.id}">${netLogo(n)}${n.id}</button>`).join('');
+  $('dataPlans').innerHTML=DATA_PLANS.map((p,i)=>`<button class="plan${i===0?' sel':''}" data-plan="${i}"><i class="radio"></i><span>${p.name}</span><span>${money(p.price)}</span></button>`).join('');
+  $('airAmounts').innerHTML=AIRTIME_AMOUNTS.map(a=>`<button class="amount" data-amount="${a}">${a==='Other'?a:money(a)}</button>`).join('');
+  if(!CONFIG.DEMO_NOTES)document.querySelectorAll('.demo-note').forEach(e=>e.remove());
+  if(LIVE)document.querySelectorAll('.auth-note').forEach(e=>e.remove());
+  hydrate();
+}
+
+/* ========== PURCHASE FLOW ========== */
+function pick(btn,group){btn.parentElement.querySelectorAll('.'+group).forEach(x=>x.classList.remove('sel'));btn.classList.add('sel')}
+function txId(){const d=new Date(),p='WP'+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');return p+String(read(KEYS.tx).filter(t=>t.id.startsWith(p)).length+1).padStart(3,'0')}
+function nowText(){const d=new Date();return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+' – '+d.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}
+function complete({type,detail,phone,amount,message}){
+  if(amount>current.balance)return notify('Insufficient wallet balance. Your balance is '+balanceText(current.balance)+'. Fund your wallet to continue.');
+  const accts=read(KEYS.accounts),acct=accts.find(x=>x.id===current.id);
+  current.balance-=amount;if(acct){acct.balance=current.balance;write(KEYS.accounts,accts)}
+  const tx={id:txId(),userId:current.id,type,detail,phone,amount,date:nowText()};
+  const all=read(KEYS.tx);all.unshift(tx);write(KEYS.tx,all);
+  $('successText').textContent=message;$('receipt').innerHTML=`Transaction ID: ${tx.id}<br>Date: ${tx.date}`;
+  $('confetti').innerHTML=[[12,40,'#2f6bff',20],[22,22,'#ffb12e',-40],[32,70,'#22c900',60],[70,28,'#8b5a2b',-30],[82,66,'#2f6bff',50],[90,34,'#ffb12e',-60],[60,90,'#ff4a4a',30],[8,100,'#ff4a4a',-20]].map(([l,t,c,r])=>`<i class="confetti" style="left:${l}%;top:${t}px;background:${c};transform:rotate(${r}deg)"></i>`).join('');
+  showScreen('successScreen');
+}
+function buyData(){
+  const n=sel.net,p=sel.plan,phone=normalizePhone($('dataPhone').value);
+  if(!validPhone(phone)){notify('Please enter a valid 11-digit Nigerian phone number.');$('dataPhone').focus();return}
+  complete({type:'Data Subscription',detail:`${p.name} ${n} data`,phone,amount:p.price,message:`You have successfully bought ${p.name} of data on ${n}.`});
+}
+function buyAirtime(){
+  const phone=normalizePhone($('airPhone').value);
+  if(!validPhone(phone)){notify('Please enter a valid 11-digit Nigerian phone number.');$('airPhone').focus();return}
+  if(!sel.amount){notify('Select an amount to continue.');return}
+  const net=detectNetwork(phone);
+  complete({type:'Airtime Purchase',detail:`${net} airtime`.trim(),phone,amount:sel.amount,message:`You have successfully bought ${money(sel.amount)} airtime${net?' on '+net:''}.`});
+}
+function chooseAmount(btn){
+  if(btn.dataset.amount!=='Other'){pick(btn,'amount');sel.amount=Number(btn.dataset.amount);return}
+  const n=Number(prompt('Enter airtime amount in naira:'));
+  if(!Number.isFinite(n)||n<50||n>50000){notify('Enter an amount between ₦50 and ₦50,000.');return}
+  pick(btn,'amount');sel.amount=Math.round(n);notify('Custom amount selected: '+money(sel.amount));
+}
+
+/* ========== EVENTS ========== */
+const ACTIONS={
+  drawer:openDrawer,closeDrawer,logout,buyData,buyAirtime,
+  toast:b=>notify(b.dataset.msg),
+  bioLogin,bioToggle:()=>{if(getBio()?.userId===current.id){localStorage.removeItem(KEYS.bio);notify('Fingerprint login turned off.');renderSettings();updateBioButton()}else enableBio()},
+  avatar:()=>$('avatarInput').click(),edit:b=>openEdit(b.dataset.field),forgot:forgotPassword,
+  eye:b=>{const i=$(b.dataset.target);i.type=i.type==='password'?'text':'password';b.innerHTML=icon(i.type==='password'?'eye':'eyeoff')}
+};
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-go],[data-act],[data-net],[data-plan],[data-amount]');if(!t)return;
+  if(t.dataset.act==='closeDrawer'&&e.target!==t)return;
+  if(t.dataset.go){closeDrawer();return showScreen(t.dataset.go)}
+  if(t.dataset.act)return ACTIONS[t.dataset.act](t);
+  if(t.dataset.net){pick(t,'network');sel.net=t.dataset.net}
+  else if(t.dataset.plan){pick(t,'plan');sel.plan=DATA_PLANS[t.dataset.plan]}
+  else chooseAmount(t);
+});
+function prefillLogin(){const last=localStorage.getItem(KEYS.lastId);if(last){$('loginIdentity').value=last;$('rememberMe').checked=true}}
+const liveProfile=async u=>{let d={};try{const x=await fdb.collection('users').doc(u.uid).get();d=x.exists?x.data():{}}catch(e){}return{name:d.name||u.displayName||'',phone:d.phone||''}};
+function upsertLocal(u,p){const list=read(KEYS.accounts);let a=list.find(x=>x.id===u.uid);if(!a){a={id:u.uid,balance:DEFAULT_BALANCE};list.push(a)}a.name=p.name;a.phone=p.phone;a.email=u.email;write(KEYS.accounts,list);return a}
+$('registerForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const name=$('fullName').value.trim(),phone=normalizePhone($('phone').value),email=$('email').value.trim().toLowerCase(),password=$('newPassword').value;
+  if(!validPhone(phone))return notify('Enter a valid 11-digit Nigerian phone number.');
+  if(LIVE){
+    const btn=e.submitter;if(btn)btn.disabled=true;
+    try{
+      const cr=await fa.createUserWithEmailAndPassword(email,password);
+      await cr.user.updateProfile({displayName:name});
+      await fdb.collection('users').doc(cr.user.uid).set({name,phone,createdAt:Date.now()});
+      await cr.user.sendEmailVerification();await fa.signOut();
+      $('registerForm').reset();showScreen('loginScreen');$('loginIdentity').value=email;
+      notify('Account created. We sent a verification link to '+email+'. Verify your email, then log in.');
+    }catch(err){notify(authErr(err))}
+    if(btn)btn.disabled=false;return;
+  }
+  const list=read(KEYS.accounts);
+  if(list.some(a=>a.email===email||normalizePhone(a.phone)===phone))return notify('An account already exists with that email or phone. Please log in.');
+  const a={id:'u'+Date.now(),name,phone,email,password};list.push(a);write(KEYS.accounts,list);
+  startSession(a);notify('Your Well Pay demo account has been created.');
+});
+$('loginForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const id=$('loginIdentity').value.trim().toLowerCase(),pw=$('loginPassword').value;
+  if(LIVE){
+    if(!id.includes('@'))return notify('Please log in with your email address for now.');
+    const btn=e.submitter;if(btn)btn.disabled=true;
+    try{
+      await fa.setPersistence(getBio()?firebase.auth.Auth.Persistence.LOCAL:firebase.auth.Auth.Persistence.SESSION);
+      const cr=await fa.signInWithEmailAndPassword(id,pw);
+      if(!cr.user.emailVerified){await cr.user.sendEmailVerification().catch(()=>{});await fa.signOut();notify('Please verify your email first. We just sent a new link to '+id);}
+      else{
+        if($('rememberMe').checked)localStorage.setItem(KEYS.lastId,id);else localStorage.removeItem(KEYS.lastId);
+        startSession(upsertLocal(cr.user,await liveProfile(cr.user)));notify('Welcome back to Well Pay.');
+      }
+    }catch(err){notify(authErr(err))}
+    if(btn)btn.disabled=false;return;
+  }
+  const phoneId=/[a-z@]/.test(id)?null:normalizePhone(id);
+  const a=read(KEYS.accounts).find(x=>(x.email===id||(phoneId&&normalizePhone(x.phone)===phoneId))&&x.password===pw);
+  if(!a)return notify('Account not found or password is incorrect. Create an account first, or check your details.');
+  if($('rememberMe').checked)localStorage.setItem(KEYS.lastId,id);else localStorage.removeItem(KEYS.lastId);
+  startSession(a);notify('Welcome back to Well Pay.');
+});
+async function forgotPassword(){
+  if(!LIVE)return notify('Password recovery works once live accounts are connected.');
+  const id=$('loginIdentity').value.trim().toLowerCase();
+  if(!id.includes('@'))return notify('Type your email address above first, then tap Forgot Password.');
+  try{await fa.sendPasswordResetEmail(id)}catch(err){if(err.code!=='auth/user-not-found')return notify(authErr(err))}
+  notify('If an account exists for '+id+', a password reset link has been sent.');
+}
+
+/* ========== SETTINGS: EDIT PROFILE ========== */
+let editKey=null;
+function patchLocal(p){const list=read(KEYS.accounts),a=list.find(x=>x.id===current.id);if(a){Object.assign(a,p);write(KEYS.accounts,list)}Object.assign(current,p);renderSettings()}
+async function verifyPw(pw){
+  if(!pw)throw new Error('Enter your current password to continue.');
+  if(LIVE){await fa.currentUser.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(current.email,pw))}
+  else{const a=read(KEYS.accounts).find(x=>x.id===current.id);if(!a||a.password!==pw)throw new Error('Current password is incorrect.')}
+}
+const EDIT_DEF={
+  name:{title:'Change name',help:'This is the name shown on your account.',f:[['v','Full name','text']]},
+  phone:{title:'Change phone number',help:'Enter your new number and confirm with your password.',f:[['v','New phone number','tel'],['pw','Current password','password']]},
+  email:{title:'Change email',help:LIVE?'We will send a confirmation link to the new address. Your email changes only after you click it.':'Enter your new email and confirm with your password.',f:[['v','New email address','email'],['pw','Current password','password']]},
+  password:{title:'Change password',help:'Enter your current password and choose a new one.',f:[['pw','Current password','password'],['v','New password (6+ characters)','password']]}
+};
+function openEdit(k){
+  editKey=k;const d=EDIT_DEF[k];$('editTitle').textContent=d.title;$('editHelp').textContent=d.help;
+  $('editFields').innerHTML=d.f.map(([id,ph,t])=>`<input class="minput" id="ef_${id}" type="${t}" placeholder="${ph}" autocomplete="${t==='password'?(id==='v'?'new-password':'current-password'):'off'}" autocapitalize="none">`).join('');
+  $('editSave').textContent='Save';$('editLayer').classList.remove('hidden');
+  const f=$('editFields').querySelector('input');if(f)f.focus();
+}
+const closeEdit=()=>$('editLayer').classList.add('hidden');
+const done=m=>{closeEdit();notify(m)};
+const EDITS={
+  async name(v){if(v.length<2)throw new Error('Enter your full name.');
+    if(LIVE){await fdb.collection('users').doc(current.id).set({name:v},{merge:true});await fa.currentUser.updateProfile({displayName:v})}
+    patchLocal({name:v});done('Name updated.')},
+  async phone(v,pw){const p=normalizePhone(v);if(!validPhone(p))throw new Error('Enter a valid 11-digit Nigerian phone number.');
+    if(!LIVE&&read(KEYS.accounts).some(a=>a.id!==current.id&&normalizePhone(a.phone)===p))throw new Error('That phone number is already used by another account.');
+    await verifyPw(pw);if(LIVE)await fdb.collection('users').doc(current.id).set({phone:p},{merge:true});
+    patchLocal({phone:p});done('Phone number updated.')},
+  async email(v,pw){v=v.toLowerCase();if(!/^\S+@\S+\.\S+$/.test(v))throw new Error('Enter a valid email address.');
+    await verifyPw(pw);
+    if(LIVE){await fa.currentUser.verifyBeforeUpdateEmail(v);return done('Confirmation link sent to '+v+'. Your email changes once you click it.')}
+    if(read(KEYS.accounts).some(a=>a.id!==current.id&&a.email===v))throw new Error('That email is already used by another account.');
+    patchLocal({email:v});done('Email updated.')},
+  async password(v,pw){
+    await verifyPw(pw);if(v.length<6)throw new Error('New password must be at least 6 characters.');
+    if(v===pw)throw new Error('New password must be different from your current password.');
+    if(LIVE)await fa.currentUser.updatePassword(v);else patchLocal({password:v});
+    done('Password changed.')}
+};
+$('editCancel').addEventListener('click',closeEdit);
+$('editSave').addEventListener('click',async()=>{
+  const v=($('ef_v')?.value||'').trim(),pw=$('ef_pw')?.value||'',b=$('editSave');b.disabled=true;
+  try{await EDITS[editKey](v,pw)}catch(err){notify(authErr(err))}
+  b.disabled=false;
+});
+function startSession(a){sessionStorage.setItem(KEYS.session,a.id);localStorage.removeItem(KEYS.locked);touch();current={id:a.id,name:a.name,phone:a.phone,email:a.email,photo:a.photo||'',balance:a.balance??DEFAULT_BALANCE};showScreen('homeScreen')}
+
+
+/* ========== FINGERPRINT LOGIN (WebAuthn, uses the phone's own fingerprint) ========== */
+const b64=buf=>btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const unb64=t=>Uint8Array.from(atob(t.replace(/-/g,'+').replace(/_/g,'/')),c=>c.charCodeAt(0));
+const getBio=()=>{try{return JSON.parse(localStorage.getItem(KEYS.bio)||'null')}catch(e){return null}};
+async function bioSupported(){try{return !!(window.PublicKeyCredential&&window.isSecureContext&&await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable())}catch(e){return false}}
+async function updateBioButton(){$('bioBtn').classList.toggle('hidden',!(getBio()&&(!LIVE||fa.currentUser)&&await bioSupported()))}
+async function enableBio(){
+  if(!await bioSupported())return notify('Fingerprint login needs a secure (https) page and a phone with a fingerprint set up.');
+  try{
+    const cred=await navigator.credentials.create({publicKey:{challenge:crypto.getRandomValues(new Uint8Array(32)),rp:{name:'Well Pay'},user:{id:new TextEncoder().encode(current.id),name:current.email,displayName:current.name},pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}],authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required'},timeout:60000}});
+    localStorage.setItem(KEYS.bio,JSON.stringify({userId:current.id,credId:b64(cred.rawId)}));
+    notify('Fingerprint login turned on.');renderSettings();updateBioButton();
+  }catch(e){notify('Fingerprint setup was cancelled or failed.')}
+}
+async function bioLogin(){
+  const bio=getBio();if(!bio)return;
+  try{
+    await navigator.credentials.get({publicKey:{challenge:crypto.getRandomValues(new Uint8Array(32)),allowCredentials:[{type:'public-key',id:unb64(bio.credId),transports:['internal']}],userVerification:'required',timeout:60000}});
+    if(LIVE){const u=fa.currentUser;if(!u||u.uid!==bio.userId){updateBioButton();return notify('Your session expired. Please log in with your password.')}
+      startSession(upsertLocal(u,await liveProfile(u)));return notify('Welcome back to Well Pay.')}
+    const a=read(KEYS.accounts).find(x=>x.id===bio.userId);if(!a)return notify('Account not found on this device.');
+    startSession(a);notify('Welcome back to Well Pay.');
+  }catch(e){notify('Fingerprint not recognised. Use your password instead.')}
+}
+
+/* ========== SUPPORT CHAT ========== */
+let chatUnsub=null,chatMsgs=[];
+const chatKey=()=>KEYS.chat+current.id;
+function renderChat(){
+  const t=$('chatThread');
+  t.innerHTML=chatMsgs.length?chatMsgs.map(m=>`<div class="bubble ${m.from==='admin'?'admin':'me'}">${esc(m.text)}<small>${m.from==='admin'?'Well Pay Support · ':''}${new Date(m.ts).toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}</small></div>`).join(''):'<div class="empty">No messages yet. Type your question below.</div>';
+  t.scrollTop=t.scrollHeight;
+  $('chatWait').classList.toggle('hidden',!(chatMsgs.length&&chatMsgs[chatMsgs.length-1].from==='me'));
+}
+function openChat(){
+  stopChat();$("chatDemoNote")?.classList.toggle('hidden',LIVE);
+  if(!LIVE){chatMsgs=read(chatKey());renderChat();return}
+  chatMsgs=[];renderChat();
+  chatUnsub=fdb.collection('chats').doc(current.id).collection('messages').orderBy('ts').onSnapshot(q=>{
+    chatMsgs=q.docs.map(d=>{const m=d.data();return{from:m.from==='admin'?'admin':'me',text:m.text,ts:m.ts||Date.now()}});renderChat();
+    fdb.collection('chats').doc(current.id).set({unreadUser:false},{merge:true}).catch(()=>{});
+  },()=>notify('Could not load messages. Check your connection.'));
+}
+function stopChat(){if(chatUnsub){chatUnsub();chatUnsub=null}}
+async function sendChat(){
+  const box=$('chatInput'),text=box.value.trim();if(!text||!current)return;
+  box.value='';box.style.height='48px';const ts=Date.now();
+  if(!LIVE){chatMsgs.push({from:'me',text,ts});write(chatKey(),chatMsgs);renderChat();return}
+  try{
+    const ref=fdb.collection('chats').doc(current.id);
+    await ref.set({name:current.name,email:current.email,phone:current.phone,updated:ts,lastText:text,lastFrom:'user',unreadAdmin:true},{merge:true});
+    await ref.collection('messages').add({from:'user',text,ts});
+  }catch(e){box.value=text;notify('Message not sent. Check your connection and try again.')}
+}
+$('chatSend').addEventListener('click',sendChat);
+$('chatInput').addEventListener('input',e=>{e.target.style.height='48px';e.target.style.height=Math.min(e.target.scrollHeight,110)+'px'});
+$('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&window.innerWidth>700){e.preventDefault();sendChat()}});
+
+/* ========== FLOATING HELP BUTTON (draggable shortcut to support) ========== */
+const fab=$('helpFab'),FAB=56,GAP=10;
+let fabPos=(()=>{try{return JSON.parse(localStorage.getItem(KEYS.fab))||{fx:1,fy:.74}}catch(e){return{fx:1,fy:.74}}})();
+function placeFab(){
+  const r=document.querySelector('.app').getBoundingClientRect();
+  const minX=Math.max(r.left,0)+GAP,maxX=Math.min(r.right,innerWidth)-FAB-GAP,minY=GAP+8,maxY=innerHeight-FAB-GAP;
+  fab.style.left=(minX+fabPos.fx*(maxX-minX))+'px';fab.style.top=(minY+fabPos.fy*(maxY-minY))+'px';
+}
+function updateFab(id){fab.classList.toggle('hidden',!current||['loginScreen','registerScreen','supportScreen'].includes(id));if(!fab.classList.contains('hidden'))placeFab()}
+(()=>{
+  let sx,sy,ox,oy,moved=false,down=false;
+  fab.addEventListener('pointerdown',e=>{down=true;moved=false;sx=e.clientX;sy=e.clientY;const b=fab.getBoundingClientRect();ox=b.left;oy=b.top;fab.setPointerCapture(e.pointerId)});
+  fab.addEventListener('pointermove',e=>{
+    if(!down)return;const dx=e.clientX-sx,dy=e.clientY-sy;
+    if(!moved&&Math.hypot(dx,dy)<6)return;moved=true;fab.classList.add('drag');
+    const r=document.querySelector('.app').getBoundingClientRect();
+    const minX=Math.max(r.left,0)+GAP,maxX=Math.min(r.right,innerWidth)-FAB-GAP,minY=GAP+8,maxY=innerHeight-FAB-GAP;
+    const x=Math.min(maxX,Math.max(minX,ox+dx)),y=Math.min(maxY,Math.max(minY,oy+dy));
+    fab.style.left=x+'px';fab.style.top=y+'px';
+    fabPos={fx:(x-minX)/Math.max(1,maxX-minX),fy:(y-minY)/Math.max(1,maxY-minY)};
+  });
+  const end=()=>{if(!down)return;down=false;fab.classList.remove('drag');
+    if(moved)localStorage.setItem(KEYS.fab,JSON.stringify(fabPos));else showScreen('supportScreen')};
+  fab.addEventListener('pointerup',end);fab.addEventListener('pointercancel',()=>{down=false;fab.classList.remove('drag')});
+  addEventListener('resize',()=>{if(!fab.classList.contains('hidden'))placeFab()});
+})();
+
+/* ========== PROFILE PHOTO ========== */
+function savePhoto(data){
+  const list=read(KEYS.accounts),a=list.find(x=>x.id===current.id);if(!a)return;
+  a.photo=data;try{write(KEYS.accounts,list)}catch(e){return notify('Could not save the photo. Try a smaller image.')}
+  current.photo=data;renderAvatars();notify('Profile photo updated.');
+}
+$('avatarInput').addEventListener('change',e=>{
+  const file=e.target.files[0];e.target.value='';
+  if(!file||!file.type.startsWith('image/'))return notify('Please choose an image file.');
+  const img=new Image(),url=URL.createObjectURL(file);
+  img.onload=()=>{const S=256,c=document.createElement('canvas'),m=Math.min(img.width,img.height);c.width=c.height=S;c.getContext('2d').drawImage(img,(img.width-m)/2,(img.height-m)/2,m,m,0,0,S,S);URL.revokeObjectURL(url);savePhoto(c.toDataURL('image/jpeg',.85))};
+  img.onerror=()=>notify('That image could not be read. Try another photo.');
+  img.src=url;
+});
+['airPhone','dataPhone','phone'].forEach(id=>$(id).addEventListener('change',e=>{const n=normalizePhone(e.target.value);if(validPhone(n))e.target.value=n}));
+
+/* ========== BOOT ========== */
+hydrate();renderStatic();prefillLogin();
+/* ========== STAY LOGGED IN (until logout or 30 min idle) ========== */
+const touch=()=>localStorage.setItem(KEYS.active,Date.now());
+let lastTouch=0;['click','keydown','touchstart'].forEach(ev=>document.addEventListener(ev,()=>{if(current&&Date.now()-lastTouch>15000){lastTouch=Date.now();touch()}},{passive:true}));
+setInterval(()=>{if(current&&Date.now()-Number(localStorage.getItem(KEYS.active)||0)>IDLE_MS){logout();notify('You were logged out because you were inactive.')}},30000);
+{
+  const idle=Date.now()-Number(localStorage.getItem(KEYS.active)||0)>IDLE_MS;
+  const ready=()=>document.documentElement.classList.remove('booting');
+  setTimeout(ready,5000);
+  showScreen('loginScreen');updateBioButton();
+  if(!LIVE){
+    localStorage.removeItem(KEYS.session);
+    const a=read(KEYS.accounts).find(x=>x.id===sessionStorage.getItem(KEYS.session));
+    if(a&&!idle&&!localStorage.getItem(KEYS.locked))startSession(a);else sessionStorage.removeItem(KEYS.session);
+    ready();
+  }else{
+    let first=true;
+    fa.onAuthStateChanged(async u=>{
+      if(first){first=false;
+        if(u&&u.emailVerified&&sessionStorage.getItem(KEYS.session)===u.uid&&!idle&&!localStorage.getItem(KEYS.locked))startSession(upsertLocal(u,await liveProfile(u)));
+        else if(u&&getBio()?.userId===u.uid)localStorage.setItem(KEYS.locked,'1');
+        else if(u)fa.signOut();
+        ready();
+      }
+      updateBioButton();
+    });
+  }
+}
+</script>
+</body>
+</html>
